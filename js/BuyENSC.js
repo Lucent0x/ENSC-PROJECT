@@ -3,7 +3,11 @@ let NGN_PAID;
 let BENEFICIARY;
 let TOKENS;
 let ONE_USDT;
-const ABI = ` [
+const polygonProvider = 'https://polygon-mumbai.g.alchemy.com/v2/6NXFPx0MMHkVDsCBGBH0TCB9YZp7L8Jr'
+const polyonCA = '0xBD03e51De6F8B8966Be12f7bAebF6F2059dF949F'
+const sepoliaProvider = 'https://eth-sepolia.g.alchemy.com/v2/ePJuuYH6yWSCRAbCjV3gLy_znj03wCt9'
+const sepoliaCA = '0xB94D8a0009D5B7362390BC8f146762dC561F3c74'
+const ABI =  [
 	{
 		"inputs": [
 			{
@@ -119,9 +123,9 @@ const ABI = ` [
 		"stateMutability": "payable",
 		"type": "receive"
 	}
-]`;
+];
 
-
+// Sepolia token: 0x676E6EFAd3707c67035Febc9BDffB1322E3Cdb66
 window.onload = async ( ) => {
     const fetchPrice = ( )=>{
     const XHR = new XMLHttpRequest();
@@ -153,22 +157,23 @@ Form.onsubmit = async ( e ) => {
     BENEFICIARY = document.querySelector("input.beneficiary").value; 
     NGN_PAID = document.querySelector("input.NGN").value; 
 
-                // static beneficiary : 0x507AC153C2dd7c7ABCae96d0F385485B81ebA8BF
-                var web3 = new Web3(new Web3.providers.HttpProvider('https://polygon-mumbai.g.alchemy.com/v2/6NXFPx0MMHkVDsCBGBH0TCB9YZp7L8Jr'));
+                var web3 = new Web3(new Web3.providers.HttpProvider(sepoliaProvider));
                 ///ENSC SALE CA
-                const contractAddress = '0xBD03e51De6F8B8966Be12f7bAebF6F2059dF949F';
-                  // Contract Instance
-                const contract = new web3.eth.Contract(JSON.parse(ABI), contractAddress);
-                const privateKey = 'a03ccc4fd6704ff2ca56cc6b36db9cac788c1cd02a5a592286c066732ea5fcb3';
+                const contractAddress = '0xB94D8a0009D5B7362390BC8f146762dC561F3c74';
+                    const privateKey = 'a03ccc4fd6704ff2ca56cc6b36db9cac788c1cd02a5a592286c066732ea5fcb3';
                  //CONVERT NGN to ENSC Token bits
                 let wei =  web3.utils.toWei(`${Number(NGN_PAID)}`, "ether");
                 //STATIC SENDER //can be customised
                  let _sender = '0x78EeF3BA63473733D236C6a9F6f602a8881129c8';
+                // static beneficiary : 0x507AC153C2dd7c7ABCae96d0F385485B81ebA8BF
                  //NONCE IS OPTIONAL THOUGH
-                 const nonce = await web3.eth.getTransactionCount(_sender, 'latest'); 
+                //  const nonce = await web3.eth.getTransactionCount(_sender, 'latest');  // Contract Instance 
+              
+                const contract = new web3.eth.Contract(ABI, sepoliaCA);
+             
                  // CONTRACT INTERACTION BEGINS HERE
-                 query =  contract.methods.Buy_ENSC_Tokens_With_eNaira( `${BENEFICIARY}`, `${wei}` )
-                 //ENCODE CONTRACT ABI
+                 query =  contract.methods.Buy_ENSC_Tokens_With_eNaira( "0x507AC153C2dd7c7ABCae96d0F385485B81ebA8BF", 2 )
+                  //ENCODE CONTRACT ABI
                   const encodedABI = query.encodeABI()
                   // TRANSACTION CREATION
                 const tx = {
@@ -180,24 +185,23 @@ Form.onsubmit = async ( e ) => {
                      maxPriorityFeePerGas: '0x3b9aca00', 
                      maxFeePerGas: '0x2540be400'
                     };
-            // SIGN TRANSACTION
-                  web3.eth.accounts.signTransaction(tx, privateKey).then(  async ( signed ) => {
-                    // EXTRACT  THE RAW TxHash
-                        hashed = signed.rawTransaction
-
-                            console.log("Txhash : ", signed)
-                     // THIS SECTION KEEPS ACTING UP, I WONDER WHY? 🥺😢       
-                        await web3.eth.sendSignedTransaction(hashed, (error, hash) => {
-                           // CHECK TRANSACTION STATE
-                                  if(!error){
-                           console.log("🎉 The hash of your transaction is: ", hash, "\n Check Alchemy's Mempool to view the status of your transaction!");
-                                  }else{
-                                    // TRANSACTION ENDS HERE.
-                                    console.error("failed : ",error)
-                                  }
-                        
-                 
-                                })
-              
-                })
+                  // Sign and send the transaction
+                  web3.eth.accounts.signTransaction(tx, privateKey)
+                    .then((signedTx) => {
+                      web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+                        .on('receipt', (receipt) => {
+                          console.log('Transaction receipt:', receipt);
+                        })
+                        .on('error', (error) => {
+                          console.error('Transaction error:', error);
+                        });
+                    })
+                    .catch((error) => {
+                      console.error('Transaction signing error:', error);
+                    });
+                    //AN OVERRIDE
+                            //  let gethProxy = await fetch(`https://api-sepolia.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex=${TxHash}&apikey=*******`);    
+                            //   let response = await gethProxy.json();
+                            //   console.log(response)
+                    
             }}
