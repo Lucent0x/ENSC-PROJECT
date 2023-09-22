@@ -167,7 +167,7 @@ Form.onsubmit = async ( e ) => {
                  let _sender = '0x78EeF3BA63473733D236C6a9F6f602a8881129c8';
                 // static beneficiary : 0x507AC153C2dd7c7ABCae96d0F385485B81ebA8BF
                  //NONCE IS OPTIONAL THOUGH
-                //  const nonce = await web3.eth.getTransactionCount(_sender, 'latest');  // Contract Instance 
+                //  const nonce = await web3.eth.getTransactionCount(_sender, 'latest');  
               
                 const contract = new web3.eth.Contract(ABI, sepoliaCA);
              

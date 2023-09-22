@@ -78,6 +78,24 @@ contract ENSC_Sale {
         _postValidatePurchase(_beneficiary, _tokens);
     }
 
+    function Buy_ENSC_Tokens_With_USD(_rate) public payable {
+        require(_rate > 0);
+        uint256 coins = msg.value * _rate;
+        //search for msg.data
+        _preValidatePurchase(msg.sender, coins);
+
+        // update state
+        weiSold += coins;
+
+        _processPurchase(msg.sender, coins);
+        emit TokenPurchase(msg.sender, _beneficiary, coins);
+
+        _updatePurchasingState(msg.sender, coins);
+
+        _forwardFunds();
+        _postValidatePurchase(msg.sender, coins);
+    }
+
     // -----------------------------------------
     // Internal interface (extensible)
     // -----------------------------------------
