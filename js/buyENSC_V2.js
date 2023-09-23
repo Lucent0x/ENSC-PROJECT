@@ -17,6 +17,7 @@ var proceedMsg = document.querySelector(".proceed-msg")
 var proceed = document.querySelector("button#proceed")
 var cancel = document.querySelector("button#cancel")
 var connectButton = document.querySelector(".connecWallet")
+const buyBotton = document.querySelector("button#buy");
 var walletContract;
 var webIII;
 var Address;
@@ -144,6 +145,12 @@ const ABI = [
     }
 ];
 
+
+const amount = document.querySelector("input.NGN");
+amount.onchange = ( ) =>{
+    buyBotton.innerHTML = ` BUY ${amount.value} $ENSC`;
+}
+
 const fetchPrices = async () => {
     const payload = await fetch(API);
     prices = await payload.json()
@@ -164,16 +171,11 @@ FORM.onsubmit = async (e) => {
     const NGN = document.querySelector("input.NGN").value;
     var beneficiary = document.querySelector("input.beneficiary").value;
 
-    var web3 = new Web3(new Web3.providers.HttpProvider(sepoliaProvider));
+    var web3 = new Web3(new Web3(sepoliaProvider));
     //check if address is valid
     validAddress = web3.utils.isAddress(`${beneficiary}`);
     if (validAddress == true) {
         beneficiary = beneficiary
-        NONCE = await web3.eth.getTransactionCount(beneficiary, 'latest').then((nonce) => {
-            NONCE = nonce;
-            console.log(nonce)
-        });
-        console.log(NONCE)
     } else {
         _error(" Invalid Address")
     }
@@ -195,18 +197,18 @@ FORM.onsubmit = async (e) => {
         gas: 21000,
         data: encodedABI
     }
+    await web3.eth.getTransactionCount(sender, 'latest').then(nonce =>{
+        NONCE = nonce 
+    })
     //check gas price or txcost
     await web3.eth.estimateGas({ transaction }).then(async (gas) => {
         GAS = gas;
-        console.log(gas, " gas")
     });
     await web3.eth.getGasPrice().then(async (price) => {
-        console.log
         GAS_PRICE = price;
-        console.log(GAS_PRICE, " gas price")
         //  console.log(Number(GAS_PRICE).toString() * Number(GAS).toString() )
     })
-    //it was 2100n * GAS_PRICE
+
     var gasFee = GAS * GAS_PRICE;
     _toString = gasFee.toString();
     let to1e18 = web3.utils.fromWei(_toString, "ether")
@@ -217,7 +219,7 @@ FORM.onsubmit = async (e) => {
                     if 1 BNB cost <b> ${BNB_NGN} NGN</b> so <b>${to1e18} BNB</b> = <b>NGN ${TX_FEE_TO_NGN} </b> , <b> Total cost = NGN ${TOTAL} </b>
                    <div class="btns mt-2">
                        <button id="proceed" onclick="proceed()"class="button is-success is-light mr-2"> proceed </button>
-                      <button id="cancel"  class="button is-danger is-light ml-2"> cancel </button>
+                      <button id="cancel" onclick="cancel()"  class="button is-danger is-light ml-2"> cancel </button>
                    </div> `;
     proceedMsg.style.display = "block";
 
@@ -263,7 +265,7 @@ FORM.onsubmit = async (e) => {
 
     }
 
-    cancel.onclick = () => {
+    cancel  = () => {
         _error("Transaction Canceled")
     }
 
@@ -277,7 +279,8 @@ FORM.onsubmit = async (e) => {
                 from: beneficiary,
                 to: contractAddress,
                 data: encodedABI,
-                gas: '99000', //GAS
+                gas: GAS,
+                nonce: NONCE,
                 gasLimit: '100000',
                 maxPriorityFeePerGas: '0x3b9aca00',
                 maxFeePerGas: '0x2540be400'
@@ -286,8 +289,8 @@ FORM.onsubmit = async (e) => {
             // Sign and send the transaction
             web3.eth.accounts.signTransaction(tx, privateKey)
                 .then((signedTx) => {
-                    console.log(NONCE, " nonce")
-                    console.log(signedTx)
+                    console.log( "Transaction Hash", signedTx.rawTransaction)
+                    
                     web3.eth.sendSignedTransaction(signedTx.rawTransaction)
                         .on('receipt', (receipt) => {
                             console.log('Transaction receipt:', receipt);
@@ -302,6 +305,6 @@ FORM.onsubmit = async (e) => {
                 });
         }
     }
-    verifyTransactionOnBackend({ staus: "success" })
+    //  verifyTransactionOnBackend({ status: "success" })
 }
 
