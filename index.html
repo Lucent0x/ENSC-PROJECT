@@ -34,8 +34,8 @@
     </style>
     <div class="container c-1">
         <div class="rates">
-            <div class="bnb"></div>
-            <div class="tether"></div>
+            <div class="bnb mr-2"></div>
+            <div class="tether ml-2"></div>
         </div>
         <div class="">
         <button class="button is-primary connectWallet" onclick="onclick=connectWalletHandler()"> Connect Wallet </button>
@@ -47,13 +47,7 @@
         <input type="text" class="input mt-3 is-warning beneficiary" placeholder="Wallet Address">
         <button class="button is-primary mt-3 is-fullwidth" id="buy"> Buy ENSC </button>
     </form>
-    <div id="payment-success">
-        Thank you! Enjoy your awesome cruise.🚢
-    </div>
-    <div id="payment-pending">
-        Verifying...Setting up your cruise🚢
-    </div>
- 
+  
     <div class="proceed-msg box has-text-info mt-2">
         Your transaction cost includes <b>NGN ${NGN} </b>  for  <b>${NGN} ENSC </b>& <b>${to1e18} </b>as Gas Fee.
         if 1bnb is <b> ${BNB_NGN} NGN</b>, then <b>${to1e18} BNB</b> = <b>NGN ${TX_FEE_TO_NGN} </b> , <b> Total cost = NGN ${TOTAL} </b>

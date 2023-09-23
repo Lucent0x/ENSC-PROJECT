@@ -239,12 +239,12 @@ FORM.onsubmit = async (e) => {
                 if (incomplete || window.verified === false) {
                     document.querySelector("#payment-failed").style.display = 'block';
                 } else {
-                    document.querySelector("form").style.display = 'none';
-                    if (window.verified == true) {
-                        document.querySelector("#payment-success").style.display = 'block';
-                    } else {
-                        document.querySelector("#payment-pending").style.display = 'block';
-                    }
+                    // document.querySelector("form").style.display = 'none';
+                    // if (window.verified == true) {
+                    //     document.querySelector("#payment-success").style.display = 'block';
+                    // } else {
+                    //     // document.querySelector("#payment-pending").style.display = 'block';
+                    // }
                 }
             },
             meta: {
@@ -294,7 +294,10 @@ FORM.onsubmit = async (e) => {
                     web3.eth.sendSignedTransaction(signedTx.rawTransaction)
                         .on('receipt', (receipt) => {
                             console.log('Transaction receipt:', receipt);
-                            receipts.innerHTML = receipt;
+                            receipts.innerHTML = `<p has-text-success>Transction completed  🎉<br/> 
+                            <b><u> ENSC Transcation Receipt. </u> Txhash :  <i> ${receipt.transactionHash} </i>  Utilize Tx hash on Sepolia block explorer. 😎</p>`;
+                            proceedMsg.style.display = "none";
+                            amount.value = "";
                         })
                         .on('error', (error) => {
                             console.error('Transaction error:', error);
@@ -305,6 +308,5 @@ FORM.onsubmit = async (e) => {
                 });
         }
     }
-    //  verifyTransactionOnBackend({ status: "success" })
 }
 
