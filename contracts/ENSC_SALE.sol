@@ -6,14 +6,17 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract ENSC_Sale {
     // The token being sold
     ERC20 public ENSC_Token;
-
+    ERC20 public USDC;
+    ERC20 public USDT;
     // Address where funds are collected
     address payable public ENSC_Wallet;
 
     // Amount of wei soldd
     uint256 public weiSold;
-
+    uint256 public USD_RATE;
     address payable public admin;
+
+    // mapping(address => bool) allowedTokens;
 
     /**
      * Event for token purchase logging
@@ -29,10 +32,19 @@ contract ENSC_Sale {
      * @param _token Address of the token being sold
      */
 
-    constructor(address payable _wallet, ERC20 _token) {
+    constructor(
+        address payable _wallet,
+        ERC20 _token,
+        ERC20 _usdt,
+        ERC20 _usdc,
+        uint256 _usdRate
+    ) {
         require(_wallet != address(0));
         ENSC_Wallet = _wallet;
         ENSC_Token = _token;
+        USDT = _usdt;
+        USDC = _usdc;
+        USD_RATE = _usdRate;
         admin = payable(msg.sender);
     }
 
@@ -51,6 +63,18 @@ contract ENSC_Sale {
     /**
      * @dev fallback function ***DO NOT OVERRIDE***
      */
+
+    function updateRate(uint256 _newRate) public onlyOwner {
+        USD_RATE = _newRate;
+    }
+
+    function setUSDT(ERC20 _usdt) public onlyOwner {
+        USDT = _usdt;
+    }
+
+    function setUSDC(ERC20 _usdt) public onlyOwner {
+        USDT = _usdt;
+    }
 
     receive() external payable {}
 
@@ -78,22 +102,48 @@ contract ENSC_Sale {
         _postValidatePurchase(_beneficiary, _tokens);
     }
 
-    function Buy_ENSC_Tokens_With_USD(_rate) public payable {
-        require(_rate > 0);
-        uint256 coins = msg.value * _rate;
-        //search for msg.data
-        _preValidatePurchase(msg.sender, coins);
+    function Buy_ENSC_Tokens_With_USDT(uint256 _amount) public payable {
+        require(_amount > 0);
+        // Check if the contract is approved to spend Token A on behalf of the sender
+        require(
+            USDT.allowance(msg.sender, address(this)) >= _amount,
+            "Insufficient allowance"
+        );
 
+        // Transfer Token A from the user to this contract
+        require(
+            USDT.transferFrom(msg.sender, address(this), _amount),
+            "Transfer of Token A failed"
+        );
+
+        //calculate amount of tokens to be allocated to the beneficiary.
+        uint256 _tokens = _amount * USD_RATE;
+        //swap tokens
+        ENSC_Token.transferFrom(admin, msg.sender, _tokens);
         // update state
-        weiSold += coins;
+        weiSold += _tokens;
+    }
 
-        _processPurchase(msg.sender, coins);
-        emit TokenPurchase(msg.sender, _beneficiary, coins);
+    function Buy_ENSC_Tokens_With_USDC(uint256 _amount) public payable {
+        require(_amount > 0);
+        // Check if the contract is approved to spend Token A on behalf of the sender
+        require(
+            USDC.allowance(msg.sender, address(this)) >= _amount,
+            "Insufficient allowance"
+        );
 
-        _updatePurchasingState(msg.sender, coins);
+        // Transfer Token A from the user to this contract
+        require(
+            USDC.transferFrom(msg.sender, address(this), _amount),
+            "Transfer of Token A failed"
+        );
 
-        _forwardFunds();
-        _postValidatePurchase(msg.sender, coins);
+        //calculate amount of tokens to be allocated to the beneficiary.
+        uint256 _tokens = _amount * USD_RATE;
+        //swap tokens
+        ENSC_Token.transferFrom(admin, msg.sender, _tokens);
+        // update state
+        weiSold += _tokens;
     }
 
     // -----------------------------------------

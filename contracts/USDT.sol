@@ -6,18 +6,18 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 
-contract ENSC_ENERGY is ERC20Capped {
+contract USDT is ERC20Capped {
     address payable public owner;
 
     constructor()
         // string memory tName,
         // string memory tSymbol,
         // uint256 cap
-        ERC20("ENSC ENERGY", "ENSC")
-        ERC20Capped(20000000000 * (10 ** decimals()))
+        ERC20("USDT TOKEN", "USDT")
+        ERC20Capped(10000000 * (10 ** decimals()))
     {
         owner = payable(msg.sender);
-        _mint(owner, 20000000000 * (10 ** decimals()));
+        _mint(owner, 10000000 * (10 ** decimals()));
     }
 
     function mint(uint amount) public onlyOwner {

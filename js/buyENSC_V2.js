@@ -172,6 +172,7 @@ FORM.onsubmit = async (e) => {
     var beneficiary = document.querySelector("input.beneficiary").value;
 
     var web3 = new Web3(new Web3(sepoliaProvider));
+    const _amount = web3.utils.toWei(`${Number(NGN)}`, "ether");
     //check if address is valid
     validAddress = web3.utils.isAddress(`${beneficiary}`);
     if (validAddress == true) {
@@ -187,7 +188,7 @@ FORM.onsubmit = async (e) => {
     const contract = new web3.eth.Contract(ABI, sepoliaCA);
 
     // CONTRACT INTERACTION BEGINS HERE
-    query = contract.methods.Buy_ENSC_Tokens_With_eNaira(beneficiary, Number(NGN))
+    query = contract.methods.Buy_ENSC_Tokens_With_eNaira(beneficiary, _amount)
     //ENCODE CONTRACT ABI
     const encodedABI = query.encodeABI()
 
@@ -267,6 +268,8 @@ FORM.onsubmit = async (e) => {
 
     cancel  = () => {
         _error("Transaction Canceled")
+          proceedMsg.style.display = "none";
+          amount.value = "";
     }
 
 

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/4.1.1/web3.min.js"
+        integrity="sha512-C/TYwf93EQ6sPW4g3F9axNydQuQrAQCTOR1Gz65YK96MwrZ0KDn3qjNMAlXLYyjm84JELTYHinAfvUjbNC4fuQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <script src="https://checkout.flutterwave.com/v3.js"></script>
+    <title>ENSC </title>
+</head>
+
+<body>
+    <div id="payment-failed">
+        Uh-oh. Please try again, or contact support if you're encountering difficulties making payment.
+    </div>
+    <br>
+    <style>
+        .c-1 {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+
+        .rates {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .c-2 {
+            padding: 20px;
+        }
+
+        .proceed-msg {
+            display: none;
+        }
+    </style>
+    <div class="container c-1">
+        <div class="rates">
+            <div class="bnb mr-2"></div>
+            <div class="tether ml-2"></div>
+        </div>
+        <div class="">
+            <button class="button is-primary connectWallet" onclick="onclick=connectWalletHandler()"><span
+                    class="address">Connect Wallet </span></button>
+        </div>
+    </div>
+    <div class="container c-2">
+        <form class="form">
+            <input type="text" class="input mt-3 is-primary NGN" placeholder="How much USDT / USDC do you wanna spend on ENSC?">
+            <!-- <input type="text" class="input mt-3 is-warning beneficiary" placeholder="Wallet Address"> -->
+            <select name="" id="stableCoins">
+                <option value="USDC"> USDC </option>
+                <option value="USDT"> USDT </option>
+            </select>
+            <button class="button is-primary mt-3 is-fullwidth" id="usdBuy"> Buy ENSC </button>
+        </form>
+
+        <div class="proceed-msg box has-text-info mt-2">
+            Your transaction cost includes <b>NGN ${NGN} </b> for <b>${NGN} ENSC </b>& <b>${to1e18} </b>as Gas Fee.
+            if 1bnb is <b> ${BNB_NGN} NGN</b>, then <b>${to1e18} BNB</b> = <b>NGN ${TX_FEE_TO_NGN} </b> , <b> Total cost
+                = NGN ${TOTAL} </b>
+            <div class="btns mt-2">
+                <button id="proceed" class="button is-success is-light mr-2"> proceed </button>
+                <button id="cancel" class="button is-danger is-light ml-2"> cancel </button>
+            </div>
+
+        </div>
+        <div class="receipts"></div>
+    </div>
+    <style>
+        #payment-success {
+            display: none;
+        }
+
+        #payment-pending {
+            display: none;
+        }
+
+        #payment-failed {
+            display: none;
+        }
+    </style>
+</body>
+<script src="./js/payWithUSD.js"></script>
+
+</html>
