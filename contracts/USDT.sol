@@ -14,10 +14,10 @@ contract USDT is ERC20Capped {
         // string memory tSymbol,
         // uint256 cap
         ERC20("USDT TOKEN", "USDT")
-        ERC20Capped(10000000 * (10 ** decimals()))
+        ERC20Capped(20000000 * (10 ** decimals()))
     {
         owner = payable(msg.sender);
-        _mint(owner, 10000000 * (10 ** decimals()));
+        _mint(owner, 20000000 * (10 ** decimals()));
     }
 
     function mint(uint amount) public onlyOwner {

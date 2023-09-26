@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 // CA: 0xA839Ec1ad80a1DA38C1A3208738B2f64B38c266D
-contract ENSC_Sale {
+contract ENSC_Vendor {
     // The token being sold
     ERC20 public ENSC_Token;
     ERC20 public USDC;
@@ -104,13 +104,13 @@ contract ENSC_Sale {
 
     function Buy_ENSC_Tokens_With_USDT(uint256 _amount) public payable {
         require(_amount > 0);
-        // Check if the contract is approved to spend Token A on behalf of the sender
+        // Check if the contract is approved to spend USDT on behalf of the sender
         require(
             USDT.allowance(msg.sender, address(this)) >= _amount,
             "Insufficient allowance"
         );
 
-        // Transfer Token A from the user to this contract
+        // Transfer USDT from the user to this contract
         require(
             USDT.transferFrom(msg.sender, address(this), _amount),
             "Transfer of Token A failed"
@@ -118,7 +118,8 @@ contract ENSC_Sale {
 
         //calculate amount of tokens to be allocated to the beneficiary.
         uint256 _tokens = _amount * USD_RATE;
-        //swap tokens
+
+        //Transfer ENSC tokens to user
         ENSC_Token.transferFrom(admin, msg.sender, _tokens);
         // update state
         weiSold += _tokens;
@@ -132,7 +133,7 @@ contract ENSC_Sale {
             "Insufficient allowance"
         );
 
-        // Transfer Token A from the user to this contract
+        // Transfer Token USDC from the user to this contract
         require(
             USDC.transferFrom(msg.sender, address(this), _amount),
             "Transfer of Token A failed"
@@ -140,8 +141,12 @@ contract ENSC_Sale {
 
         //calculate amount of tokens to be allocated to the beneficiary.
         uint256 _tokens = _amount * USD_RATE;
-        //swap tokens
-        ENSC_Token.transferFrom(admin, msg.sender, _tokens);
+
+        // Transfer ENSC tokens to user
+        require(
+            ENSC_Token.transferFrom(admin, msg.sender, _tokens),
+            "Failed to send ENSC token to user"
+        );
         // update state
         weiSold += _tokens;
     }

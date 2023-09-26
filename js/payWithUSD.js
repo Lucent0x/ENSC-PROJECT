@@ -1,4 +1,4 @@
-    const _ENSC_SALE_ABI =[
+    const _VENDOR_ABI = [
 	{
 		"inputs": [
 			{
@@ -568,350 +568,355 @@
 	}
 ]
 	const _USDT_ABI = [
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "Approval",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "approve",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "burn",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "subtractedValue",
-				"type": "uint256"
-			}
-		],
-		"name": "decreaseAllowance",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "addedValue",
-				"type": "uint256"
-			}
-		],
-		"name": "increaseAllowance",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "mint",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transfer",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "value",
-				"type": "uint256"
-			}
-		],
-		"name": "Transfer",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "transferFrom",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"stateMutability": "payable",
-		"type": "receive"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "spender",
-				"type": "address"
-			}
-		],
-		"name": "allowance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "balanceOf",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "cap",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "decimals",
-		"outputs": [
-			{
-				"internalType": "uint8",
-				"name": "",
-				"type": "uint8"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "name",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address payable",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "symbol",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "totalSupply",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "spender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "Approval",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      }
+    ],
+    "name": "Transfer",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "spender",
+        "type": "address"
+      }
+    ],
+    "name": "allowance",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "spender",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "approve",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "balanceOf",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "burn",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "cap",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "decimals",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "spender",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "subtractedValue",
+        "type": "uint256"
+      }
+    ],
+    "name": "decreaseAllowance",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "spender",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "addedValue",
+        "type": "uint256"
+      }
+    ],
+    "name": "increaseAllowance",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "mint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "name",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address payable",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "totalSupply",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "transfer",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferFrom",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "stateMutability": "payable",
+    "type": "receive"
+  }
 ]
 
+
 var _web3;
-var ENSC_SALES_CONTRACT;
+var ensc_vendor_contract;
 var usdc_contract;
 var usdt_contract;
+var _tokens;
+var _amount;
 const form = document.querySelector("form") 
 let getBNB = document.querySelector(".bnb");
 let getTether = document.querySelector(".tether"); 
 const addressBar = document.querySelector("span")
-const _ensc_sale_contractAddress = "0xA827E79251973e178Da587B5d3208333b094ec1b";
-const _usdc_contractAddress ="0x791be1C6CCC744e9e9c09D0F30e579aF90b10E1e";
-const _usdt_contractAddress ="0x75a8dC57a5A98457b0a8Bd782B13680687214c35";
+//ensc at: 0x9041675D722b2FaD8A920ff5eb7fe0D4ddc3e088
+//0xde5cd1c2fc381faf0b99d6ba98f342f65a34e96f1b3b6da95c76c0c179896fbb
+const _ensc_vendor_contractAddress = "0xE57fa1121C51a0856a18549601B5B6406413FF18";
+const _usdc_contractAddress ="0x2810E07519f8f63750981bc19f5ad980b97C1AfF";
+const _usdt_contractAddress ="0xaaE38908235887469126981B3721F028711833Ea";
 const API = "https://api.coingecko.com/api/v3/simple/price?ids=tether%2Cbinancecoin&vs_currencies=ngn";
 
 
@@ -926,59 +931,9 @@ const fetchPrices = async () => {
 }
 fetchPrices();
 
-const __error = ( ) => {
+const __error = ( error) => {
   alert(error.message);
 }
-  
-form.onsubmit = async ( e ) => {
-  e.preventDefault()
-const __input = document.querySelector("input.NGN").value;
-const method = document.querySelector("#stableCoins").value;
-console.log(method)
-  await connectWalletHandler()
-  _tokens = _web3.utils.toWei(`${Number(__input * Math.round(USDT_NGN))}`, "ether");
-  _amount = _web3.utils.toWei(`${Number(__input)}`, "ether");
-  if(method == "USDC") {
-	//seek approval
-	try {
-		await  usdc_contract.methods.approve(`${_ensc_sale_contractAddress}`, `${_amount}`).send({
-		from:Address
-	}).then(  async ( )=> {
-     await ENSC_SALES_CONTRACT.methods.Buy_ENSC_Tokens_With_USDC(`${_amount}`).send( {
-    from:   `${Address}`,
-    value: `${_amount}`
-     }).then( (data) => {
-		console.log( "Transaction Receipt: ", data.transactionHash)
-	 })
-	})
-	} catch (error) {
-		console.error(error.message)
-		__error(error.message)
-	}
-	
-  }else if ( method == "USDT"){
-	try {
-		//seek approval
-	await  usdt_contract.methods.approve(ENSC_SALES_CONTRACT, _amount).send({
-		from:Address
-	}).then( async ( )=> {
-	await ENSC_SALES_CONTRACT.methods.Buy_ENSC_Tokens_With_USDT(`${_amount}`).send( {
-    from:   `${Address}`,
-    value: `${_amount}`
-   }).then( (data) => {
-		console.log( "Transaction Receipt: ", data.transactionHash)
-	 })
-	})
-	} catch (error) {
-		console.error(error.message);
-		__error(error.message)
-	}
-		
-  }else{
-	__error("select a stable coin!")
-  }
-   
-  }
    const connectWalletHandler = async () => {
 
     if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
@@ -992,7 +947,7 @@ console.log(method)
         Address = accounts[0];
         addressBar.innerText = `${Address}`;
         // initialize contracts
-         ENSC_SALES_CONTRACT = new _web3.eth.Contract(_ENSC_SALE_ABI, _ensc_sale_contractAddress);
+         ensc_vendor_contract = new _web3.eth.Contract(_VENDOR_ABI, _ensc_vendor_contractAddress);
 		 usdc_contract = new _web3.eth.Contract(_USDC_ABI, _usdc_contractAddress);
 		 usdt_contract = new _web3.eth.Contract(_USDT_ABI, _usdt_contractAddress);
 
@@ -1012,4 +967,74 @@ console.log(method)
       __error('pls install metamask');
     }
   }
-    
+  
+  
+form.onsubmit = async ( e ) => {
+  e.preventDefault()
+const __input = document.querySelector("input.NGN").value;
+const method = document.querySelector("#stableCoins").value;
+
+  await connectWalletHandler()
+  _tokens = _web3.utils.toWei(`${Number(__input * Math.round(USDT_NGN))}`, "ether");
+  _amount = _web3.utils.toWei(`${Number(__input)}`, "ether");
+  if(method == "USDC") {
+	//seek approval
+	try {
+		allowance = await usdc_contract.methods.allowance(Address, _ensc_vendor_contractAddress).call();
+		if ( Number(allowance) >= Number(_amount )){
+			await ensc_vendor_contract.methods.Buy_ENSC_Tokens_With_USDC(_amount).send( {
+			from:   Address,
+			}).on( 'receipt', ( receipt )=> {
+				console.log( receipt)
+			})
+		
+		}else{
+			console.log("insufficient Allowance:", allowance)
+			await  usdc_contract.methods.approve(_ensc_vendor_contractAddress, _amount).send({
+			from:Address
+			}).on("receipt", (receipt) => {
+				console.log("Approval Receipt: ", receipt)
+			})
+			await usdc_contract.methods.increaseAllowance(_ensc_vendor_contractAddress, _amount)
+			.send({from:Address})
+			.on('receipt', ( receipt) => {
+				console.log("Allowance receipt", receipt)
+			})
+			allowance = await usdc_contract.methods.allowance(Address, _ensc_vendor_contractAddress).call();
+			console.log("new Allowance", allowance)
+
+			await ensc_vendor_contract.methods.Buy_ENSC_Tokens_With_USDC(_amount).send( {
+			from:   Address,
+			}).on( 'receipt', ( receipt )=> {
+				console.log( receipt)
+			})
+
+		}
+	
+	} catch (error) {
+		console.error(error.message)
+		__error(error.message)
+	}
+	
+  }else if ( method == "USDT"){
+	try {
+		//seek approval
+	await  usdt_contract.methods.approve(_ensc_vendor_contractAddress, _amount).send({
+		from:Address
+	})
+	//buy tokens
+	await ensc_vendor_contract.methods.Buy_ENSC_Tokens_With_USDT(_amount).send({from: Address}).on( 'receipt', (data) => {
+		console.log( "Transaction Receipt: ", data)
+	 })
+	 
+	} catch (error) {
+		console.error(error.message);
+		__error(error.message)
+	}
+		
+  }else{
+	__error("select a stable coin!")
+  }
+   
+  }
+  
