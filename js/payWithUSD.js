@@ -2,6 +2,148 @@
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "tokenAddress",
+				"type": "address"
+			}
+		],
+		"name": "addTokenToWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_beneficiary",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "Buy_ENSC_Tokens_With_eNaira",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Buy_ENSC_Tokens_With_USDC",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Buy_ENSC_Tokens_With_USDT",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_tokenIn",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountIn",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountOut",
+				"type": "uint256"
+			}
+		],
+		"name": "Exchange_For_ENSC",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract ERC20",
+				"name": "_tokenOut",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountIn",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountOut",
+				"type": "uint256"
+			}
+		],
+		"name": "Exchange_From_ENSC",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "tokenAddress",
+				"type": "address"
+			}
+		],
+		"name": "removeTokenFromWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_usdt",
+				"type": "address"
+			}
+		],
+		"name": "setUSDC",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_usdt",
+				"type": "address"
+			}
+		],
+		"name": "setUSDT",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "address payable",
 				"name": "_wallet",
 				"type": "address"
@@ -12,12 +154,12 @@
 				"type": "address"
 			},
 			{
-				"internalType": "contract ERC20",
+				"internalType": "address",
 				"name": "_usdc",
 				"type": "address"
 			},
 			{
-				"internalType": "contract ERC20",
+				"internalType": "address",
 				"name": "_usdt",
 				"type": "address"
 			},
@@ -84,44 +226,56 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_amount",
+				"name": "_newRate",
 				"type": "uint256"
 			}
 		],
-		"name": "Buy_ENSC_Tokens_With_USDC",
+		"name": "updateRate",
 		"outputs": [],
-		"stateMutability": "payable",
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "withdrawBalance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
+	},
+	{
+		"inputs": [],
+		"name": "admin",
+		"outputs": [
 			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
 			}
 		],
-		"name": "Buy_ENSC_Tokens_With_USDT",
-		"outputs": [],
-		"stateMutability": "payable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_beneficiary",
+				"name": "",
 				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_tokens",
-				"type": "uint256"
 			}
 		],
-		"name": "Buy_ENSC_Tokens_With_eNaira",
-		"outputs": [],
-		"stateMutability": "payable",
+		"name": "allowedTokens",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -151,78 +305,6 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "contract ERC20",
-				"name": "_tokenIn",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amountIn",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amountOut",
-				"type": "uint256"
-			}
-		],
-		"name": "Exchange_For_ENSC",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "contract ERC20",
-				"name": "_tokenOut",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amountIn",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amountOut",
-				"type": "uint256"
-			}
-		],
-		"name": "Exchange_From_ENSC",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "USDC",
-		"outputs": [
-			{
-				"internalType": "contract ERC20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "USDT",
-		"outputs": [
-			{
-				"internalType": "contract ERC20",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "USD_RATE",
 		"outputs": [
@@ -237,10 +319,10 @@
 	},
 	{
 		"inputs": [],
-		"name": "admin",
+		"name": "USDC",
 		"outputs": [
 			{
-				"internalType": "address payable",
+				"internalType": "address",
 				"name": "",
 				"type": "address"
 			}
@@ -249,42 +331,16 @@
 		"type": "function"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "USDT",
+		"outputs": [
 			{
-				"internalType": "contract ERC20",
-				"name": "_usdt",
+				"internalType": "address",
+				"name": "",
 				"type": "address"
 			}
 		],
-		"name": "setUSDC",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "contract ERC20",
-				"name": "_usdt",
-				"type": "address"
-			}
-		],
-		"name": "setUSDT",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_newRate",
-				"type": "uint256"
-			}
-		],
-		"name": "updateRate",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
@@ -302,14 +358,16 @@
 	},
 	{
 		"inputs": [],
-		"name": "withdrawBalance",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"name": "whitelistedTokenCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
-	},
-	{
-		"stateMutability": "payable",
-		"type": "receive"
 	}
 ]
 	const _USDC_ABI = [

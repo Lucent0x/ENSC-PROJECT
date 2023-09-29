@@ -9,12 +9,12 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 contract ENSC_Vendor {
     // The token being sold
     ERC20 public ENSC_Token;
-    ERC20 public USDC;
-    ERC20 public USDT;
+    address public USDC;
+    address public USDT;
     // Address where funds are collected
     address payable public ENSC_Wallet;
 
-    // Amount of wei soldd
+    // Amount of wei sold
     uint256 public weiSold;
     uint256 public USD_RATE;
     address payable public admin;
@@ -33,6 +33,11 @@ contract ENSC_Vendor {
         address indexed beneficiary,
         uint256 tokens
     );
+
+    // Whitelist of allowed tokens
+    mapping(address => bool) public allowedTokens;
+    //whitelist count
+    uint256 public whitelistedTokenCount;
     /**
      * @param _wallet Address where collected funds will be forwarded to
      * @param _token Address of the token being sold
@@ -41,8 +46,8 @@ contract ENSC_Vendor {
     constructor(
         address payable _wallet,
         ERC20 _token,
-        ERC20 _usdc,
-        ERC20 _usdt,
+        address _usdc,
+        address _usdt,
         uint256 _usdRate
     ) {
         require(_wallet != address(0));
@@ -52,6 +57,13 @@ contract ENSC_Vendor {
         USDC = _usdc;
         USD_RATE = _usdRate;
         admin = payable(msg.sender);
+
+        // Add USDT and USDC to the whitelist
+        allowedTokens[USDT] = true;
+        allowedTokens[USDC] = true;
+
+        //intialize white listed token counts
+        whitelistedTokenCount = 2;
     }
 
     modifier onlyOwner() {
@@ -66,19 +78,28 @@ contract ENSC_Vendor {
     // ENSC vendor external || public interface
     // -----------------------------------------
 
-    /**
-     * @dev fallback function ***DO NOT OVERRIDE***
-     */
+    
+    function addTokenToWhitelist(address tokenAddress) external onlyOwner {
+        require(!allowedTokens[tokenAddress], "Token is already whitelisted");
+        allowedTokens[tokenAddress] = true;
+        whitelistedTokenCount++;
+    }
+
+    function removeTokenFromWhitelist(address tokenAddress) external onlyOwner {
+        require(allowedTokens[tokenAddress], "Token is not whitelisted");
+        allowedTokens[tokenAddress] = false;
+        whitelistedTokenCount--;
+    }
 
     function updateRate(uint256 _newRate) public onlyOwner {
         USD_RATE = _newRate;
     }
 
-    function setUSDT(ERC20 _usdt) public onlyOwner {
+    function setUSDT(address _usdt) public onlyOwner {
         USDT = _usdt;
     }
 
-    function setUSDC(ERC20 _usdt) public onlyOwner {
+    function setUSDC(address _usdt) public onlyOwner {
         USDT = _usdt;
     }
 
@@ -111,13 +132,13 @@ contract ENSC_Vendor {
         require(_amount > 0);
         // Check if the contract is approved to spend USDT on behalf of the sender
         require(
-            USDT.allowance(msg.sender, address(this)) >= _amount,
+           ERC20( USDT).allowance(msg.sender, address(this)) >= _amount,
             "Insufficient USDT allowance"
         );
 
         // Transfer USDT from the user to ENSC WALLET
         require(
-            USDT.transferFrom(msg.sender, ENSC_Wallet, _amount),
+            ERC20(USDT).transferFrom(msg.sender, ENSC_Wallet, _amount),
             "Transfer of Token A failed"
         );
 
@@ -136,13 +157,13 @@ contract ENSC_Vendor {
         require(_amount > 0);
         // Check if the contract is approved to spend Token A on behalf of the sender
         require(
-            USDC.allowance(msg.sender, address(this)) >= _amount,
+            ERC20(USDC).allowance(msg.sender, address(this)) >= _amount,
             "Insufficient allowance"
         );
 
         // Transfer Token USDC from the user to this ENSC Wallet
         require(
-            USDC.transferFrom(msg.sender, ENSC_Wallet, _amount),
+            ERC20(USDC).transferFrom(msg.sender, ENSC_Wallet, _amount),
             "Transfer of Token A failed"
         );
 
@@ -160,12 +181,16 @@ contract ENSC_Vendor {
         weiSold += _tokens;
     }
 
-    function Exchange_For_ENSC  ( ERC20 _tokenIn, uint256 _amountIn, uint256 _amountOut  ) public {
+    function Exchange_For_ENSC  ( address _tokenIn, uint256 _amountIn, uint256 _amountOut  ) public {
+       
+       //check if token is whiteListed
+       require( allowedTokens[_tokenIn], "This token isn't whiteListed");
+       
         //other requirements
         require ( _amountIn > 0, "amount in should be higer than 0");
         require ( _amountOut > 0, "amount out should be higer than 0");
 
-        ERC20 coin = _tokenIn;
+        ERC20 coin = ERC20(_tokenIn);
 
         // Transaction clearances
         require(coin.allowance(msg.sender, address(this)) >= _amountIn,
