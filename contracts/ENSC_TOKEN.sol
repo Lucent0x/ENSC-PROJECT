@@ -10,9 +10,6 @@ contract ENSC_ENERGY is ERC20Capped {
     address payable public owner;
 
     constructor()
-        // string memory tName,
-        // string memory tSymbol,
-        // uint256 cap
         ERC20("ENSC ENERGY", "ENSC")
         ERC20Capped(20000000000 * (10 ** decimals()))
     {

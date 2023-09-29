@@ -26,7 +26,7 @@
                 </ul>
             </div>
             <div class="right2">
-                <div class="button is-primary is-dark"> connect <i class="fa-solid fa-wallet ml-3"></i></div>
+                <div class="button is-primary is-dark" id="connect" onclick="connectWalletHandler()"> connect <i class="fa-solid fa-wallet ml-3"></i></div>
             </div>
         </div>
     </div>
@@ -34,53 +34,30 @@
         <div class="card">
             <form class="form">
                 <div class="data">
-                    <input type="number" class="input is-primary is-dark"  placeholder="From">
+                    <input type="number" id="to" class="input is-primary is-dark mr-4"  placeholder="To" >
                         <div class="coinData">
-                            <div class="bal"> Balance: <span id="bal"> 3.3244</span> </div>
+                            <div class="bal">  </div>
                             <div class="metadata">
-                                <img src="./src/coin1.jpg" alt="">
+                                <img id="logo1" src="./src/ENSC_logo.png" alt="">
                                 <span><b id="tokenA">ENSC </b> </span>
                                 <span class="clickable"> <i class="fa-solid fa-angle-down"></i></span>
                             </div>
                         </div>
                 </div>
 
-                <div class="swap"><span> <i class="fa-solid fa-arrows-rotate spin"></i></span></div>
+                <div class="swap"><span> <i class="fa-solid fa-arrows-rotate spin" onclick="spinUp()"></i></span></div>
 
                 <div class="data">
-                    <input type="text" class="input is-primary is-light" placeholder="To">
+                    <input type="text" id="from" class="input is-primary is-light" placeholder="From">
                         <div class="Select">
                             <div class="metadata">
-                                <div class="btn2 button is-small is-primary is-dark find"> <span >Select a Token </span><i class="fa-solid fa-angle-down ml-2"></i></div>
+                                <button class="btn2 button is-small is-primary is-dark find"> <span >Select a Token </span><i class="fa-solid fa-angle-down ml-2"></i></button>
                             </div>
                         </div>
                 </div>
                  <div class="tokens mt-2 hide">
-                            <div class="token box" onclick="setData({name: 'Token 1'})"> 
-                                <div class="img">
-                                    <img src="./src/coin1.jpg" alt="">
-                                </div>
-                                <div class="name ml-2"> TOKEN NAME</div>
-                            </div>
-                            <div class="token box" onclick="setData({name: 'Token 2'})">
-                                <div class="img">
-                                    <img src="./src/coin1.jpg" alt="">
-                                </div>
-                                <div class="name ml-2"> TOKEN NAME</div>
-                            </div>
-                            <div class="token box" onclick="setData({name: 'Token 3'})"> 
-                                <div class="img">
-                                    <img src="./src/coin1.jpg" alt="">
-                                </div>
-                                <div class="name ml-2"> TOKEN NAME</div>
-                            </div>
-                            <div class="token box " onclick="setData({name: 'Token 4'})">
-                                <div class="img">
-                                    <img src="./src/coin1.jpg" alt="">
-                                </div>
-                                <div class="name ml-2"> TOKEN NAME</div>
-                            </div>
-                        </div>
+
+                </div>
                 <button class="button mt-3 is-info is-light is-fullwidth"> SWAP </button>
             </form>
         </div>
