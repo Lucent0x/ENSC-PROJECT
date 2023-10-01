@@ -1118,6 +1118,7 @@ var token = document.querySelectorAll(".token");
 const bal = document.querySelector(".bal")
 var logo1 = document.querySelector("#logo1")
 const connectBtn  = document.querySelector("#connect")
+const form = document.querySelector("form")
 
 var _web3;
 var Address;
@@ -1131,8 +1132,11 @@ var TokenBalance;
 var symbol;
 var  amountIn;
 var amountOut;
-
+var tokenIn;
+var tokenOut;
 var contractAddress;
+var ensc_contract;
+var ensc_vendor_contract;
 
 // const __error = ( error ) => {
 //     console.error(error)
@@ -1155,8 +1159,13 @@ findButton.onclick = ( e ) => {
  tokens.classList.toggle("hide")
 }
 
+const setTokenOut = async ( e ) => {
+	tokenOut = e;
+}
+
 const setData =  async ( e ) => {
-    tokenB = e
+    tokenB = e 
+	tokenIn = e
     tokenCA = e.ca;
    tokens.classList.toggle("hide")
     findButton.innerHTML = `${ e.name } <i class="fa-solid fa-angle-down ml-2"></i>`;
@@ -1181,6 +1190,94 @@ const fetchBal = async ( _contractAddress ) => {
           }
 }
 
+
+
+form.onsubmit = async ( e ) => {
+	 e.preventDefault();
+	  let tokenInSymbol = tokenIn.symbol;
+	  
+	  switch (tokenInSymbol) {
+		case "USDT":
+			try {
+			let _amountIn = _web3.utils.toWei(`${Number(amountIn)}`, "ether");
+			let _amountOut = _web3.utils.toWei(`${Number(amountOut)}`, "ether");
+			let _tokenIn = tokenIn.ca;
+		_contract = new _web3.eth.Contract(BEP20ABI, _tokenIn );
+		     //check if _amountOut is valid number
+			 if ( _amountOut !== null ){
+			//check allowance level
+			let allowance = await _contract.methods.allowance(Address, _ensc_vendor_contractAddress).call();
+			console.log(allowance)
+			if ( Number(allowance) >= _amountIn ){
+				//procced with exchange
+			await ensc_vendor_contract.methods.Exchange_For_ENSC ( _tokenIn, _amountIn, _amountOut ).send({
+				from: Address
+			});
+				fetchBal()
+			}else {
+			//seek approval to spend amountIn from user balance
+			await _contract.methods.approve(_ensc_vendor_contractAddress, _amountIn).send({
+				from: Address
+			});
+			// Vendors has been approved to spend  balance ENSC balance of onlyOwner
+			//procced with exchange
+			await ensc_vendor_contract.methods.Exchange_For_ENSC ( _tokenIn, _amountIn, _amountOut ).send({
+				from: Address
+			});
+				fetchBal()
+		 }
+		
+			 }else{
+				console.warn("calulating amount out.")
+			 }
+			} catch (error) {
+				console.error(error.message);
+			}
+			break;
+		case "ENSC" : 
+		try {
+			let _amountIn = _web3.utils.toWei(`${Number(amountIn)}`, "ether");
+			let _amountOut = _web3.utils.toWei(`${Number(amountOut)}`, "ether");
+			let _tokenOut = tokenOut.ca;
+			 if ( _amountOut !== null ){
+			//check allowance
+			let allowance = await ensc_contract.methods.allowance(Address, _ensc_vendor_contractAddress).call()
+			console.log(allowance, "allowance")
+			if(allowance >= _amountIn ){
+				//proceed to swapping
+				await ensc_vendor_contract.methods.Exchange_From_ENSC ( _tokenOut, _amountIn, _amountOut  ).send({
+				from: Address
+			 })
+
+			 fetchBal()
+			}else{
+		     //check if _amountOut is valid number
+		    //seek permision to spend ENSC balance of msg.sender	
+			await ensc_contract.methods.approve(_ensc_vendor_contractAddress, _amountIn).send({
+				from:Address
+			})
+			
+		//vendor has permission to spend ENSC tokens 
+		//vendor has permission to spend ERC20 token from  Wallet
+		//so proceed
+			await ensc_vendor_contract.methods.Exchange_From_ENSC ( _tokenOut, _amountIn, _amountOut  ).send({
+				from: Address
+			 })
+
+			 fetchBal()
+			}
+			 }else{
+				console.warn("calulating amount out.")
+			 }
+			} catch (error) {
+				console.error(error.message);
+			}
+			break;
+		default:
+			break;
+	  }
+
+}
 const From = document.querySelector("#from")
 const To = document.querySelector("#to");
 
@@ -1216,10 +1313,10 @@ from.onkeyup = async ( ) => {
 }
 
  const spinUp = (  ) => {
-    _status = 2;
+    setTokenOut(tokenIn);
     spin.style.transitionDuration = "2s"
     spin.style.rotate = '360deg';
-    tokenA.innerHTML = tokenB.name;
+    tokenA.innerHTML = tokenB.symbol;
     logo1.src= `../src/${tokenB.logo}`;
     findButton.innerHTML = "ENSC Energy";
     findButton.disabled="true"

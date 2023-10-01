@@ -1050,11 +1050,10 @@ let getTether = document.querySelector(".tether");
 const addressBar = document.querySelector("span")
 //ensc at: 0x9041675D722b2FaD8A920ff5eb7fe0D4ddc3e088
 //0xde5cd1c2fc381faf0b99d6ba98f342f65a34e96f1b3b6da95c76c0c179896fbb
-const _ensc_vendor_contractAddress = "0xE57fa1121C51a0856a18549601B5B6406413FF18";
+const _ensc_vendor_contractAddress = "0xc5E3E5cEba45433eaeD6957c5e70E2F1C66d5c72";
 const _usdc_contractAddress ="0x2810E07519f8f63750981bc19f5ad980b97C1AfF";
 const _usdt_contractAddress ="0xaaE38908235887469126981B3721F028711833Ea";
 const API = "https://api.coingecko.com/api/v3/simple/price?ids=tether%2Cbinancecoin&vs_currencies=ngn";
-
 
 
 const fetchPrices = async () => {

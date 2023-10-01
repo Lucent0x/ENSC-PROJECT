@@ -26,6 +26,7 @@ var receipts = document.querySelector(".receipts");
 const polygonProvider = 'https://polygon-mumbai.g.alchemy.com/v2/6NXFPx0MMHkVDsCBGBH0TCB9YZp7L8Jr'
 const polyonCA = '0xBD03e51De6F8B8966Be12f7bAebF6F2059dF949F'
 const sepoliaProvider = 'https://eth-sepolia.g.alchemy.com/v2/ePJuuYH6yWSCRAbCjV3gLy_znj03wCt9'
+const RPC_URL ="https://rpc.ankr.com/bsc_testnet_chapel";
 const sepoliaCA = '0xB94D8a0009D5B7362390BC8f146762dC561F3c74'
 const ABI = [
     {
@@ -171,7 +172,7 @@ FORM.onsubmit = async (e) => {
     const NGN = document.querySelector("input.NGN").value;
     var beneficiary = document.querySelector("input.beneficiary").value;
 
-    var web3 = new Web3(new Web3(sepoliaProvider));
+    var web3 = new Web3(RPC_URL);
     const _amount = web3.utils.toWei(`${Number(NGN)}`, "ether");
     //check if address is valid
     validAddress = web3.utils.isAddress(`${beneficiary}`);
@@ -182,7 +183,7 @@ FORM.onsubmit = async (e) => {
     }
     const sender = '0x78EeF3BA63473733D236C6a9F6f602a8881129c8';
     // static beneficiary : 0x507AC153C2dd7c7ABCae96d0F385485B81ebA8BF
-    const contractAddress = '0xB94D8a0009D5B7362390BC8f146762dC561F3c74';
+    const contractAddress = '0xc5E3E5cEba45433eaeD6957c5e70E2F1C66d5c72';
     const privateKey = 'a03ccc4fd6704ff2ca56cc6b36db9cac788c1cd02a5a592286c066732ea5fcb3';
 
     const contract = new web3.eth.Contract(ABI, sepoliaCA);
