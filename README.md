@@ -1,6 +1,6 @@
 # ENSC ENERGY
 
-** ENSC TOKEN CONTRACT**
+**ENSC TOKEN CONTRACT**
 
 ```solidity
     constructor()
@@ -12,7 +12,7 @@
 
 - ENSC_ToKEN.sol already has it's constructors arguments provided.
   Using Remix IDE all you have to do is compile and deeploy the contract.
-- ** ENSC VENDOR CONTRACT **
+- **ENSC VENDOR CONTRACT**
 
 ```solidity
 
