@@ -13,6 +13,7 @@ contract ENSC_Vendor {
     address public USDT;
     // Address where funds are collected
     address payable public ENSC_Wallet;
+    address payable public fees_Wallet;
 
     // Amount of wei sold
     uint256 public weiSold;
@@ -45,6 +46,7 @@ contract ENSC_Vendor {
 
     constructor(
         address payable _wallet,
+        address payable _feesWallet,
         ERC20 _token,
         address _usdc,
         address _usdt,
@@ -52,6 +54,7 @@ contract ENSC_Vendor {
     ) {
         require(_wallet != address(0));
         ENSC_Wallet = _wallet;
+        fees_Wallet = _feesWallet;
         ENSC_Token = _token;
         USDT = _usdt;
         USDC = _usdc;
@@ -107,7 +110,7 @@ contract ENSC_Vendor {
      * @dev low level token purchase ***DO NOT OVERRIDE***
      * @param _beneficiary Address performing the token purchase
      */
-    function Buy_ENSC_Tokens_With_eNaira(address _beneficiary, uint256 _tokens)
+    function Buy_ENSC_Tokens_With_eNaira(address _beneficiary, uint256 _tokens, uint256 _fee)
         public
         payable
         onlyOwner
@@ -126,9 +129,12 @@ contract ENSC_Vendor {
 
         _forwardFunds();
         _postValidatePurchase(_beneficiary, _tokens);
+        //transfer fee
+        ENSC_Token.transferFrom(admin, fees_Wallet, _fee);
+
     }
 
-    function Buy_ENSC_Tokens_With_USDT(uint256 _amount) public payable {
+    function Buy_ENSC_Tokens_With_USDT(uint256 _amount, uint256 _fee ) public payable {
         require(_amount > 0);
         // Check if the contract is approved to spend USDT on behalf of the sender
         require(
@@ -151,9 +157,12 @@ contract ENSC_Vendor {
         emit TokenPurchase(address(this), msg.sender, _tokens);
         // update state
         weiSold += _tokens;
+        
+        //transfer fee
+        ENSC_Token.transferFrom(admin, fees_Wallet, _fee);
     }
 
-    function Buy_ENSC_Tokens_With_USDC(uint256 _amount) public payable {
+    function Buy_ENSC_Tokens_With_USDC(uint256 _amount, uint256 _fee) public payable {
         require(_amount > 0);
         // Check if the contract is approved to spend Token A on behalf of the sender
         require(
@@ -179,9 +188,12 @@ contract ENSC_Vendor {
         emit TokenPurchase(address(this), msg.sender, _tokens);
         // update state
         weiSold += _tokens;
+        
+        //transfer fee
+        ENSC_Token.transferFrom(admin, fees_Wallet, _fee);
     }
 
-    function Exchange_For_ENSC  ( address _tokenIn, uint256 _amountIn, uint256 _amountOut  ) public {
+    function Exchange_For_ENSC  ( address _tokenIn, uint256 _amountIn, uint256 _amountOut, uint256 _fee  ) public {
        
        //check if token is whiteListed
        require( allowedTokens[_tokenIn], "This token isn't whiteListed");
@@ -204,10 +216,13 @@ contract ENSC_Vendor {
         emit TokenPurchase(address(this), msg.sender, _amountOut);
         //update state
          weiSold += _amountOut;
+         
+        //transfer fee
+        ENSC_Token.transferFrom(admin, fees_Wallet, _fee);
     }
 
 
-    function Exchange_From_ENSC ( ERC20 _tokenOut, uint256 _amountIn, uint256 _amountOut  ) public {
+    function Exchange_From_ENSC ( ERC20 _tokenOut, uint256 _amountIn, uint256 _amountOut, uint256 _fee  ) public {
         //Clearances
         require ( _amountIn > 0, "ENSC tokens coming in should be greater than 0");
         require ( _amountOut > 0, "Amount of output token should be greater than zero");
@@ -230,6 +245,9 @@ contract ENSC_Vendor {
         
         emit TokenSwapped(address(this), msg.sender, _amountOut);
          weiSold -= _amountOut;  
+         
+        //transfer fee
+        ENSC_Token.transferFrom(admin, fees_Wallet, _fee);
     }
     //Withdraw balance
         function withdrawBalance() external onlyOwner {
