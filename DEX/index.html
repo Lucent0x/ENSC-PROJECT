@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
         integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./css/dex.css">
+    <link rel="stylesheet" href="../css/dex.css">
     <title>ENSC DEX</title>
 </head>
 <body>
     <div class="header">
         <div class="left">
             <div class="logo">
-              <img src="./src/ENSC_logo.png" alt="">
+              <img src="../src/ENSC_logo.png" alt="">
             </div>
         </div>
         <div class="right">
@@ -34,11 +34,11 @@
         <div class="card">
             <form class="form">
                 <div class="data">
-                    <input type="number" id="to" class="input is-primary is-dark mr-4"  placeholder="To" >
+                    <input type="number" id="to" class="input is-primary is-dark mr-4"  placeholder="Token out" >
                         <div class="coinData">
                             <div class="bal">  </div>
                             <div class="metadata">
-                                <img id="logo1" src="./src/ENSC_logo.png" alt="">
+                                <img id="logo1" src="../src/ENSC_logo.png" alt="">
                                 <span><b id="tokenA">ENSC </b> </span>
                                 <span class="clickable"> <i class="fa-solid fa-angle-down"></i></span>
                             </div>
@@ -48,7 +48,7 @@
                 <div class="swap"><span> <i class="fa-solid fa-arrows-rotate spin" onclick="spinUp()"></i></span></div>
 
                 <div class="data">
-                    <input type="text" id="from" class="input is-primary is-light" placeholder="From">
+                    <input type="text" id="from" class="input is-primary is-light" placeholder="Token In">
                         <div class="Select">
                             <div class="metadata">
                                 <button class="btn2 button is-small is-primary is-dark find"> <span >Select a Token </span><i class="fa-solid fa-angle-down ml-2"></i></button>
@@ -63,5 +63,5 @@
         </div>
     </div>
 </body>
-<script src="./js/dex.js"></script>
+<script src="../js/dex.js"></script>
 </html>

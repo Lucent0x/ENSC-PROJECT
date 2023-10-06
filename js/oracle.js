@@ -1,5 +1,5 @@
 const API = "https://api.coingecko.com/api/v3/simple/price?ids=usd&vs_currencies=ngn";
-const ABI =  [
+const ABI =[
 	{
 		"inputs": [
 			{
@@ -24,6 +24,11 @@ const ABI =  [
 				"internalType": "uint256",
 				"name": "_tokens",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
 			}
 		],
 		"name": "Buy_ENSC_Tokens_With_eNaira",
@@ -37,6 +42,11 @@ const ABI =  [
 				"internalType": "uint256",
 				"name": "_amount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
 			}
 		],
 		"name": "Buy_ENSC_Tokens_With_USDC",
@@ -49,6 +59,11 @@ const ABI =  [
 			{
 				"internalType": "uint256",
 				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
 				"type": "uint256"
 			}
 		],
@@ -73,6 +88,11 @@ const ABI =  [
 				"internalType": "uint256",
 				"name": "_amountOut",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
 			}
 		],
 		"name": "Exchange_For_ENSC",
@@ -95,6 +115,11 @@ const ABI =  [
 			{
 				"internalType": "uint256",
 				"name": "_amountOut",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
 				"type": "uint256"
 			}
 		],
@@ -147,6 +172,11 @@ const ABI =  [
 			{
 				"internalType": "address payable",
 				"name": "_wallet",
+				"type": "address"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_feesWallet",
 				"type": "address"
 			},
 			{
@@ -307,6 +337,19 @@ const ABI =  [
 	},
 	{
 		"inputs": [],
+		"name": "fees_Wallet",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "USD_RATE",
 		"outputs": [
 			{
@@ -372,7 +415,7 @@ const ABI =  [
 	}
 ];
 const privateKey = "a03ccc4fd6704ff2ca56cc6b36db9cac788c1cd02a5a592286c066732ea5fcb3";
-const CA = "0xc5E3E5cEba45433eaeD6957c5e70E2F1C66d5c72"
+const CA = "0x6C3Cc80834530f661373A7a2447861c1B5A31731";
 const RPC_URL ="https://rpc.ankr.com/bsc_testnet_chapel";
 const web3 = new Web3(RPC_URL);
 const contract = new web3.eth.Contract(ABI, CA);
@@ -473,4 +516,4 @@ const sendTransaction = async ( _tx ) => {
     
 }
 
-// setInterval(fetchPrice(), 5000)
+setInterval(fetchPrice(), 43200000)

@@ -1,6 +1,32 @@
 [
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_advisor",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_developmentFund",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_marketing",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_rnd",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_team",
+				"type": "address"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -210,6 +236,19 @@
 		"type": "receive"
 	},
 	{
+		"inputs": [],
+		"name": "Advisors",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -254,7 +293,33 @@
 	},
 	{
 		"inputs": [],
-		"name": "cap",
+		"name": "decimals",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "DevelopmentFund",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "Ecosystem",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -267,12 +332,25 @@
 	},
 	{
 		"inputs": [],
-		"name": "decimals",
+		"name": "Liquidity",
 		"outputs": [
 			{
-				"internalType": "uint8",
+				"internalType": "uint256",
 				"name": "",
-				"type": "uint8"
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "Marketing",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -306,12 +384,38 @@
 	},
 	{
 		"inputs": [],
+		"name": "RnD",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "symbol",
 		"outputs": [
 			{
 				"internalType": "string",
 				"name": "",
 				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "Team",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",

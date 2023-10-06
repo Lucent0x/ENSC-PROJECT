@@ -24,6 +24,11 @@ const _VENDOR_ABI= [
 				"internalType": "uint256",
 				"name": "_tokens",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
 			}
 		],
 		"name": "Buy_ENSC_Tokens_With_eNaira",
@@ -37,6 +42,11 @@ const _VENDOR_ABI= [
 				"internalType": "uint256",
 				"name": "_amount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
 			}
 		],
 		"name": "Buy_ENSC_Tokens_With_USDC",
@@ -49,6 +59,11 @@ const _VENDOR_ABI= [
 			{
 				"internalType": "uint256",
 				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
 				"type": "uint256"
 			}
 		],
@@ -73,6 +88,11 @@ const _VENDOR_ABI= [
 				"internalType": "uint256",
 				"name": "_amountOut",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
 			}
 		],
 		"name": "Exchange_For_ENSC",
@@ -95,6 +115,11 @@ const _VENDOR_ABI= [
 			{
 				"internalType": "uint256",
 				"name": "_amountOut",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
 				"type": "uint256"
 			}
 		],
@@ -147,6 +172,11 @@ const _VENDOR_ABI= [
 			{
 				"internalType": "address payable",
 				"name": "_wallet",
+				"type": "address"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_feesWallet",
 				"type": "address"
 			},
 			{
@@ -295,6 +325,19 @@ const _VENDOR_ABI= [
 	{
 		"inputs": [],
 		"name": "ENSC_Wallet",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "fees_Wallet",
 		"outputs": [
 			{
 				"internalType": "address payable",
@@ -1107,9 +1150,10 @@ const whitelistedTokens = [
 
 const usdc_contractAddress = "0x64544969ed7EBf5f083679233325356EbE738930";
 const usdt_contractAddress = "0x337610d27c682E347C9cD60BD4b3b107C9d34dDd";
-const ensc_contractAddress = "0x73CD02fc4FDC7436203f31a707Adb5111317b472";
-const _ensc_vendor_contractAddress = "0xc5E3E5cEba45433eaeD6957c5e70E2F1C66d5c72";
-
+const ensc_contractAddress = "0x1E3c63162310e116ab8278a8D522817d8D4c0635";
+const _ensc_vendor_contractAddress = "0x6C3Cc80834530f661373A7a2447861c1B5A31731";
+//0x5c0be7e91E596b4e4187eAd554A2cE865a24FB41
+//0x1E3c63162310e116ab8278a8D522817d8D4c0635 token
 const findButton = document.querySelector(".find");
 var tokenA = document.querySelector("#tokenA")
 const spin = document.querySelector(".spin")
@@ -1119,7 +1163,9 @@ const bal = document.querySelector(".bal")
 var logo1 = document.querySelector("#logo1")
 const connectBtn  = document.querySelector("#connect")
 const form = document.querySelector("form")
-
+ var fee;
+ var _fee;
+ var txFee;
 var _web3;
 var Address;
 var tokenB;
@@ -1201,6 +1247,7 @@ form.onsubmit = async ( e ) => {
 			try {
 			let _amountIn = _web3.utils.toWei(`${Number(amountIn)}`, "ether");
 			let _amountOut = _web3.utils.toWei(`${Number(amountOut)}`, "ether");
+			let txFee = _web3.utils.toWei(`${_fee}`, "ether");
 			let _tokenIn = tokenIn.ca;
 		_contract = new _web3.eth.Contract(BEP20ABI, _tokenIn );
 		     //check if _amountOut is valid number
@@ -1209,8 +1256,10 @@ form.onsubmit = async ( e ) => {
 			let allowance = await _contract.methods.allowance(Address, _ensc_vendor_contractAddress).call();
 			console.log(allowance)
 			if ( Number(allowance) >= _amountIn ){
+				//increase allowance
+				// await _contract.methods.increaseAllowance(_ensc_vendor_contractAddress, _amountIn).send({from:Address})
 				//procced with exchange
-			await ensc_vendor_contract.methods.Exchange_For_ENSC ( _tokenIn, _amountIn, _amountOut ).send({
+			await ensc_vendor_contract.methods.Exchange_For_ENSC ( _tokenIn, _amountIn, _amountOut, txFee ).send({
 				from: Address
 			});
 				fetchBal()
@@ -1221,7 +1270,7 @@ form.onsubmit = async ( e ) => {
 			});
 			// Vendors has been approved to spend  balance ENSC balance of onlyOwner
 			//procced with exchange
-			await ensc_vendor_contract.methods.Exchange_For_ENSC ( _tokenIn, _amountIn, _amountOut ).send({
+			await ensc_vendor_contract.methods.Exchange_For_ENSC ( _tokenIn, _amountIn, _amountOut, txFee ).send({
 				from: Address
 			});
 				fetchBal()
@@ -1238,6 +1287,7 @@ form.onsubmit = async ( e ) => {
 		try {
 			let _amountIn = _web3.utils.toWei(`${Number(amountIn)}`, "ether");
 			let _amountOut = _web3.utils.toWei(`${Number(amountOut)}`, "ether");
+			let txFee = _web3.utils.toWei(`${_fee}`, "ether");
 			let _tokenOut = tokenOut.ca;
 			 if ( _amountOut !== null ){
 			//check allowance
@@ -1245,7 +1295,7 @@ form.onsubmit = async ( e ) => {
 			console.log(allowance, "allowance")
 			if(allowance >= _amountIn ){
 				//proceed to swapping
-				await ensc_vendor_contract.methods.Exchange_From_ENSC ( _tokenOut, _amountIn, _amountOut  ).send({
+				await ensc_vendor_contract.methods.Exchange_From_ENSC ( _tokenOut, _amountIn, _amountOut, txFee  ).send({
 				from: Address
 			 })
 
@@ -1258,9 +1308,9 @@ form.onsubmit = async ( e ) => {
 			})
 			
 		//vendor has permission to spend ENSC tokens 
-		//vendor has permission to spend ERC20 token from  Wallet
+		//Ensure vendor has permission to spend ERC20 token from  Wallet
 		//so proceed
-			await ensc_vendor_contract.methods.Exchange_From_ENSC ( _tokenOut, _amountIn, _amountOut  ).send({
+			await ensc_vendor_contract.methods.Exchange_From_ENSC ( _tokenOut, _amountIn, _amountOut, txFee ).send({
 				from: Address
 			 })
 
@@ -1293,7 +1343,11 @@ from.onkeyup = async ( ) => {
             rate = _rate.tether.ngn;
             amountIn = parseFloat( `${From.value}` );
             console.log(rate)
-            amountOut =  parseFloat(amountIn) * parseFloat(rate);
+			 fee = amountIn * 0.01;
+			 _fee = parseFloat(fee) * parseFloat(rate);
+			console.log(_fee, "fee"); 
+            amountOut =  (parseFloat(amountIn) * parseFloat(rate)) - _fee;
+			console.log(amountOut, "out")
             To.value = amountOut;
             break;
     
@@ -1303,7 +1357,11 @@ from.onkeyup = async ( ) => {
             rate = _rate.tether.ngn;
             amountIn = parseFloat( `${From.value}` );
             console.log(rate)
-            amountOut =  parseFloat(amountIn) / parseFloat(rate);
+			 fee = amountIn * 0.01;
+			 _fee = parseFloat(fee) / parseFloat(rate);
+			 console.log(_fee,"fee");
+            amountOut = (parseFloat(amountIn) / parseFloat(rate)) - _fee ;
+			console.log(amountOut, "out")
             To.value = amountOut;
             break;
 

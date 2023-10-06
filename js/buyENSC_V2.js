@@ -23,128 +23,424 @@ var webIII;
 var Address;
 var prices;
 var receipts = document.querySelector(".receipts");
-const polygonProvider = 'https://polygon-mumbai.g.alchemy.com/v2/6NXFPx0MMHkVDsCBGBH0TCB9YZp7L8Jr'
-const polyonCA = '0xBD03e51De6F8B8966Be12f7bAebF6F2059dF949F'
-const sepoliaProvider = 'https://eth-sepolia.g.alchemy.com/v2/ePJuuYH6yWSCRAbCjV3gLy_znj03wCt9'
 const RPC_URL ="https://rpc.ankr.com/bsc_testnet_chapel";
-const sepoliaCA = '0xB94D8a0009D5B7362390BC8f146762dC561F3c74'
-const ABI = [
-    {
-        "inputs": [
-            {
-                "internalType": "address payable",
-                "name": "_wallet",
-                "type": "address"
-            },
-            {
-                "internalType": "contract ERC20",
-                "name": "_token",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
-    },
-    {
-        "anonymous": false,
-        "inputs": [
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "purchaser",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "beneficiary",
-                "type": "address"
-            },
-            {
-                "indexed": false,
-                "internalType": "uint256",
-                "name": "tokens",
-                "type": "uint256"
-            }
-        ],
-        "name": "TokenPurchase",
-        "type": "event"
-    },
-    {
-        "inputs": [
-            {
-                "internalType": "address",
-                "name": "_beneficiary",
-                "type": "address"
-            },
-            {
-                "internalType": "uint256",
-                "name": "_tokens",
-                "type": "uint256"
-            }
-        ],
-        "name": "Buy_ENSC_Tokens_With_eNaira",
-        "outputs": [],
-        "stateMutability": "payable",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "ENSC_Token",
-        "outputs": [
-            {
-                "internalType": "contract ERC20",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "ENSC_Wallet",
-        "outputs": [
-            {
-                "internalType": "address payable",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "admin",
-        "outputs": [
-            {
-                "internalType": "address payable",
-                "name": "",
-                "type": "address"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "inputs": [],
-        "name": "weiSold",
-        "outputs": [
-            {
-                "internalType": "uint256",
-                "name": "",
-                "type": "uint256"
-            }
-        ],
-        "stateMutability": "view",
-        "type": "function"
-    },
-    {
-        "stateMutability": "payable",
-        "type": "receive"
-    }
-];
+const _enscVendor_contractAddress = "0x6C3Cc80834530f661373A7a2447861c1B5A31731";
+const ABI =  [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "tokenAddress",
+				"type": "address"
+			}
+		],
+		"name": "addTokenToWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_beneficiary",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_tokens",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
+			}
+		],
+		"name": "Buy_ENSC_Tokens_With_eNaira",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
+			}
+		],
+		"name": "Buy_ENSC_Tokens_With_USDC",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
+			}
+		],
+		"name": "Buy_ENSC_Tokens_With_USDT",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_tokenIn",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountIn",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
+			}
+		],
+		"name": "Exchange_For_ENSC",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "contract ERC20",
+				"name": "_tokenOut",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amountIn",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
+			}
+		],
+		"name": "Exchange_From_ENSC",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "tokenAddress",
+				"type": "address"
+			}
+		],
+		"name": "removeTokenFromWhitelist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_usdt",
+				"type": "address"
+			}
+		],
+		"name": "setUSDC",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_usdt",
+				"type": "address"
+			}
+		],
+		"name": "setUSDT",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address payable",
+				"name": "_wallet",
+				"type": "address"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_feesWallet",
+				"type": "address"
+			},
+			{
+				"internalType": "contract ERC20",
+				"name": "_token",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_usdc",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_usdt",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_usdRate",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "purchaser",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "beneficiary",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "TokenPurchase",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "vendor",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "beneficiary",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "TokenSwapped",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_newRate",
+				"type": "uint256"
+			}
+		],
+		"name": "updateRate",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "withdrawBalance",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
+	},
+	{
+		"inputs": [],
+		"name": "admin",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "allowedTokens",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "ENSC_Token",
+		"outputs": [
+			{
+				"internalType": "contract ERC20",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "ENSC_Wallet",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "fees_Wallet",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "USD_RATE",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "USDC",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "USDT",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "weiSold",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "whitelistedTokenCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+]
+
 
 
 const amount = document.querySelector("input.NGN");
@@ -173,7 +469,11 @@ FORM.onsubmit = async (e) => {
     var beneficiary = document.querySelector("input.beneficiary").value;
 
     var web3 = new Web3(RPC_URL);
-    const _amount = web3.utils.toWei(`${Number(NGN)}`, "ether");
+	const fee = Number(NGN) * 0.01;
+	let amountOut =  Number(NGN) - fee;
+    const _amountOut = web3.utils.toWei(`${amountOut}`, "ether");
+	let _fee = web3.utils.toWei(`${fee}`, "ether");
+
     //check if address is valid
     validAddress = web3.utils.isAddress(`${beneficiary}`);
     if (validAddress == true) {
@@ -183,19 +483,17 @@ FORM.onsubmit = async (e) => {
     }
     const sender = '0x78EeF3BA63473733D236C6a9F6f602a8881129c8';
     // static beneficiary : 0x507AC153C2dd7c7ABCae96d0F385485B81ebA8BF
-    const contractAddress = '0xc5E3E5cEba45433eaeD6957c5e70E2F1C66d5c72';
     const privateKey = 'a03ccc4fd6704ff2ca56cc6b36db9cac788c1cd02a5a592286c066732ea5fcb3';
 
-    const contract = new web3.eth.Contract(ABI, sepoliaCA);
-
+    const contract = new web3.eth.Contract(ABI, _enscVendor_contractAddress);
     // CONTRACT INTERACTION BEGINS HERE
-    query = contract.methods.Buy_ENSC_Tokens_With_eNaira(beneficiary, _amount)
+    query = contract.methods.Buy_ENSC_Tokens_With_eNaira(`${beneficiary}`, _amountOut, _fee)
     //ENCODE CONTRACT ABI
     const encodedABI = query.encodeABI()
 
     const transaction = {
         from: sender,
-        to: contractAddress,
+        to: _enscVendor_contractAddress,
         gas: 21000,
         data: encodedABI
     }
@@ -259,13 +557,17 @@ FORM.onsubmit = async (e) => {
                 name: "Rose DeWitt Bukater",
             },
             customizations: {
-                title: "ENSC ENERY",
+                title: "ENSC ENERGY",
                 description: "Payment ENSC Token",
                 logo: "https://www.logolynx.com/images/logolynx/22/2239ca38f5505fbfce7e55bbc0604386.jpeg",
             },
         });
 
     }
+
+	// proceed = async () => {
+	// 	verifyTransactionOnBackend( {status: "successful"})
+	// }
 
     cancel  = () => {
         _error("Transaction Canceled")
@@ -277,15 +579,14 @@ FORM.onsubmit = async (e) => {
     async function verifyTransactionOnBackend(transaction) {
 
         if (transaction.status == "successful") {
-            console.log(transaction);
             // TRANSACTION CREATION
             const tx = {
                 from: beneficiary,
-                to: contractAddress,
+                to: _enscVendor_contractAddress,
                 data: encodedABI,
                 gas: GAS,
                 nonce: NONCE,
-                gasLimit: '100000',
+                gasLimit: 100000,
                 maxPriorityFeePerGas: '0x3b9aca00',
                 maxFeePerGas: '0x2540be400'
             };

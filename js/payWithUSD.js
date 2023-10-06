@@ -23,6 +23,11 @@
 				"internalType": "uint256",
 				"name": "_tokens",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
 			}
 		],
 		"name": "Buy_ENSC_Tokens_With_eNaira",
@@ -36,6 +41,11 @@
 				"internalType": "uint256",
 				"name": "_amount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
+				"type": "uint256"
 			}
 		],
 		"name": "Buy_ENSC_Tokens_With_USDC",
@@ -48,6 +58,11 @@
 			{
 				"internalType": "uint256",
 				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
 				"type": "uint256"
 			}
 		],
@@ -70,7 +85,12 @@
 			},
 			{
 				"internalType": "uint256",
-				"name": "_amountOut",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
 				"type": "uint256"
 			}
 		],
@@ -93,7 +113,12 @@
 			},
 			{
 				"internalType": "uint256",
-				"name": "_amountOut",
+				"name": "_amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_fee",
 				"type": "uint256"
 			}
 		],
@@ -146,6 +171,11 @@
 			{
 				"internalType": "address payable",
 				"name": "_wallet",
+				"type": "address"
+			},
+			{
+				"internalType": "address payable",
+				"name": "_feesWallet",
 				"type": "address"
 			},
 			{
@@ -306,6 +336,19 @@
 	},
 	{
 		"inputs": [],
+		"name": "fees_Wallet",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "USD_RATE",
 		"outputs": [
 			{
@@ -372,7 +415,23 @@
 ]
 	const _USDC_ABI = [
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "tName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "tSymbol",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "cap",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -557,6 +616,13 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "destroy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -588,7 +654,7 @@
 				"type": "uint256"
 			}
 		],
-		"name": "mint",
+		"name": "mintMore",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -704,337 +770,360 @@
 	}
 ]
 	const _USDT_ABI = [
-  {
-    "inputs": [],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "spender",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
-      }
-    ],
-    "name": "Approval",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "value",
-        "type": "uint256"
-      }
-    ],
-    "name": "Transfer",
-    "type": "event"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "owner",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "spender",
-        "type": "address"
-      }
-    ],
-    "name": "allowance",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "spender",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "approve",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
-      }
-    ],
-    "name": "balanceOf",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "burn",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "cap",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "decimals",
-    "outputs": [
-      {
-        "internalType": "uint8",
-        "name": "",
-        "type": "uint8"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "spender",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "subtractedValue",
-        "type": "uint256"
-      }
-    ],
-    "name": "decreaseAllowance",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "spender",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "addedValue",
-        "type": "uint256"
-      }
-    ],
-    "name": "increaseAllowance",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "mint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "name",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "owner",
-    "outputs": [
-      {
-        "internalType": "address payable",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "symbol",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalSupply",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "transfer",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "from",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "transferFrom",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
-  }
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "tName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "tSymbol",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "cap",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "value",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "burn",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "cap",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"internalType": "uint8",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "subtractedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "decreaseAllowance",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "destroy",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "addedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "increaseAllowance",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mintMore",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"stateMutability": "payable",
+		"type": "receive"
+	}
 ]
  
 
@@ -1048,11 +1137,11 @@ const form = document.querySelector("form")
 let getBNB = document.querySelector(".bnb");
 let getTether = document.querySelector(".tether"); 
 const addressBar = document.querySelector("span")
-//ensc at: 0x9041675D722b2FaD8A920ff5eb7fe0D4ddc3e088
-//0xde5cd1c2fc381faf0b99d6ba98f342f65a34e96f1b3b6da95c76c0c179896fbb
-const _ensc_vendor_contractAddress = "0xc5E3E5cEba45433eaeD6957c5e70E2F1C66d5c72";
-const _usdc_contractAddress ="0x2810E07519f8f63750981bc19f5ad980b97C1AfF";
-const _usdt_contractAddress ="0xaaE38908235887469126981B3721F028711833Ea";
+
+const enscCA = "0x1E3c63162310e116ab8278a8D522817d8D4c0635";
+const _ensc_vendor_contractAddress = "0x6C3Cc80834530f661373A7a2447861c1B5A31731";
+const _usdc_contractAddress ="0x64544969ed7EBf5f083679233325356EbE738930";
+const _usdt_contractAddress ="0x337610d27c682E347C9cD60BD4b3b107C9d34dDd";
 const API = "https://api.coingecko.com/api/v3/simple/price?ids=tether%2Cbinancecoin&vs_currencies=ngn";
 
 
@@ -1110,14 +1199,18 @@ const __input = document.querySelector("input.NGN").value;
 const method = document.querySelector("#stableCoins").value;
 
   await connectWalletHandler()
-  _tokens = _web3.utils.toWei(`${Number(__input * Math.round(USDT_NGN))}`, "ether");
-  _amount = _web3.utils.toWei(`${Number(__input)}`, "ether");
+  let fee = Number(__input) * 0.01;
+ let  amountOut  = Number(__input ) - fee;
+ let _fee = _web3.utils.toWei(`${fee}`, "ether");
+//   let _tokens = _web3.utils.toWei(`${Number(__input * Math.round(USDT_NGN))}`, "ether");
+ let _amount = _web3.utils.toWei(`${Number(__input)}`, "ether");
+ 
   if(method == "USDC") {
 	//seek approval
 	try {
 		allowance = await usdc_contract.methods.allowance(Address, _ensc_vendor_contractAddress).call();
 		if ( Number(allowance) >= Number(_amount )){
-			await ensc_vendor_contract.methods.Buy_ENSC_Tokens_With_USDC(_amount).send( {
+			await ensc_vendor_contract.methods.Buy_ENSC_Tokens_With_USDC(_amount, _fee).send( {
 			from:   Address,
 			}).on( 'receipt', ( receipt )=> {
 				console.log( receipt)
@@ -1130,15 +1223,8 @@ const method = document.querySelector("#stableCoins").value;
 			}).on("receipt", (receipt) => {
 				console.log("Approval Receipt: ", receipt)
 			})
-			await usdc_contract.methods.increaseAllowance(_ensc_vendor_contractAddress, _amount)
-			.send({from:Address})
-			.on('receipt', ( receipt) => {
-				console.log("Allowance receipt", receipt)
-			})
-			allowance = await usdc_contract.methods.allowance(Address, _ensc_vendor_contractAddress).call();
-			console.log("new Allowance", allowance)
 
-			await ensc_vendor_contract.methods.Buy_ENSC_Tokens_With_USDC(_amount).send( {
+			await ensc_vendor_contract.methods.Buy_ENSC_Tokens_With_USDC(_amount, _fee).send( {
 			from:   Address,
 			}).on( 'receipt', ( receipt )=> {
 				console.log( receipt)
@@ -1152,16 +1238,27 @@ const method = document.querySelector("#stableCoins").value;
 	}
 	
   }else if ( method == "USDT"){
+		allowance = await usdc_contract.methods.allowance(Address, _ensc_vendor_contractAddress).call();
+		
+	
 	try {
 		//seek approval
+		if(Number(allowance) >=_amount ){
+					//buy tokens
+			await ensc_vendor_contract.methods.Buy_ENSC_Tokens_With_USDT(_amount, _fee ).send({from: Address}).on( 'receipt', (data) => {
+				console.log( "Transaction Receipt: ", data)
+			})
+		}else{
+			
 	await  usdt_contract.methods.approve(_ensc_vendor_contractAddress, _amount).send({
 		from:Address
 	})
 	//buy tokens
-	await ensc_vendor_contract.methods.Buy_ENSC_Tokens_With_USDT(_amount).send({from: Address}).on( 'receipt', (data) => {
+	await ensc_vendor_contract.methods.Buy_ENSC_Tokens_With_USDT(_amount, _fee ).send({from: Address}).on( 'receipt', (data) => {
 		console.log( "Transaction Receipt: ", data)
 	 })
 	 
+		}
 	} catch (error) {
 		console.error(error.message);
 		__error(error.message)

@@ -3,170 +3,28 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "tokenAddress",
-				"type": "address"
-			}
-		],
-		"name": "addTokenToWhitelist",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_beneficiary",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_tokens",
-				"type": "uint256"
-			}
-		],
-		"name": "Buy_ENSC_Tokens_With_eNaira",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "Buy_ENSC_Tokens_With_USDC",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_amount",
-				"type": "uint256"
-			}
-		],
-		"name": "Buy_ENSC_Tokens_With_USDT",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_tokenIn",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amountIn",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amountOut",
-				"type": "uint256"
-			}
-		],
-		"name": "Exchange_For_ENSC",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "contract ERC20",
-				"name": "_tokenOut",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amountIn",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_amountOut",
-				"type": "uint256"
-			}
-		],
-		"name": "Exchange_From_ENSC",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "tokenAddress",
-				"type": "address"
-			}
-		],
-		"name": "removeTokenFromWhitelist",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_usdt",
-				"type": "address"
-			}
-		],
-		"name": "setUSDC",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_usdt",
-				"type": "address"
-			}
-		],
-		"name": "setUSDT",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address payable",
-				"name": "_wallet",
-				"type": "address"
-			},
-			{
-				"internalType": "contract ERC20",
-				"name": "_token",
+				"name": "_advisor",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "_usdc",
+				"name": "_developmentFund",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "_usdt",
+				"name": "_marketing",
 				"type": "address"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_usdRate",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "_rnd",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_team",
+				"type": "address"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -178,23 +36,23 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "purchaser",
+				"name": "owner",
 				"type": "address"
 			},
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "beneficiary",
+				"name": "spender",
 				"type": "address"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "tokens",
+				"name": "value",
 				"type": "uint256"
 			}
 		],
-		"name": "TokenPurchase",
+		"name": "Approval",
 		"type": "event"
 	},
 	{
@@ -203,52 +61,106 @@
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "vendor",
+				"name": "from",
 				"type": "address"
 			},
 			{
 				"indexed": true,
 				"internalType": "address",
-				"name": "beneficiary",
+				"name": "to",
 				"type": "address"
 			},
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "tokens",
+				"name": "value",
 				"type": "uint256"
 			}
 		],
-		"name": "TokenSwapped",
+		"name": "Transfer",
 		"type": "event"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "Advisors",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "DevelopmentFund",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "Ecosystem",
+		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "_newRate",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "updateRate",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "withdrawBalance",
-		"outputs": [],
-		"stateMutability": "nonpayable",
+		"name": "Liquidity",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
 		"type": "function"
 	},
 	{
-		"stateMutability": "payable",
-		"type": "receive"
+		"inputs": [],
+		"name": "Marketing",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "admin",
+		"name": "RnD",
+		"outputs": [
+			{
+				"internalType": "address payable",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "Team",
 		"outputs": [
 			{
 				"internalType": "address payable",
@@ -263,11 +175,40 @@
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "",
+				"name": "owner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "spender",
 				"type": "address"
 			}
 		],
-		"name": "allowedTokens",
+		"name": "allowance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
 		"outputs": [
 			{
 				"internalType": "bool",
@@ -275,17 +216,123 @@
 				"type": "bool"
 			}
 		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "account",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "view",
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "burn",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
-		"name": "ENSC_Token",
+		"name": "decimals",
 		"outputs": [
 			{
-				"internalType": "contract ERC20",
+				"internalType": "uint8",
 				"name": "",
+				"type": "uint8"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "subtractedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "decreaseAllowance",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "addedValue",
+				"type": "uint256"
+			}
+		],
+		"name": "increaseAllowance",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -293,7 +340,7 @@
 	},
 	{
 		"inputs": [],
-		"name": "ENSC_Wallet",
+		"name": "owner",
 		"outputs": [
 			{
 				"internalType": "address payable",
@@ -306,7 +353,20 @@
 	},
 	{
 		"inputs": [],
-		"name": "USD_RATE",
+		"name": "symbol",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalSupply",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -318,55 +378,60 @@
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "USDC",
-		"outputs": [
+		"inputs": [
 			{
 				"internalType": "address",
-				"name": "",
+				"name": "to",
 				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
 			}
 		],
-		"stateMutability": "view",
+		"name": "transfer",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "USDT",
-		"outputs": [
+		"inputs": [
 			{
 				"internalType": "address",
-				"name": "",
+				"name": "from",
 				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "weiSold",
-		"outputs": [
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "amount",
 				"type": "uint256"
 			}
 		],
-		"stateMutability": "view",
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "whitelistedTokenCount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+		"stateMutability": "payable",
+		"type": "receive"
 	}
 ]
