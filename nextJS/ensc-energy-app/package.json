@@ -1,0 +1,20 @@
+{
+  "name": "ensc-energy-app",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "bulma": "^0.9.4",
+    "dotenv": "^16.3.1",
+    "next": "13.5.4",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-icons": "^4.11.0",
+    "web3": "^1.7.4"
+  }
+}
