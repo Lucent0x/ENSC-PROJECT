@@ -53,39 +53,46 @@ const _setTokenOut = async ( e ) => {
 }
 const updateTokenInBal = (bal ) => {
     setTokenInBalance_(bal)
-    console.log(tokenInBalance_, "update")
+}
+const updateTokenOutBal = (bal ) => {
+    setTokenOutBalance_(bal)
 }
 const _setTokenIn =  async ( e ) => {
-   let  _contract = bep20Contract(web3, tokenIn.ca)
-   let _tokenInBalance = await _contract.methods.balanceOf(account).call()
-   let tokenInBalance = web3.utils.fromWei(`${_tokenInBalance}`, "ether");
-   console.log(tokenInBalance, "b")
-   setTokenInBalance_(tokenInBalance)
-   updateTokenInBal (tokenInBalance)
-   console.log(tokenInBalance_, "set")
 	setTokenIn(e)
-    console.log(tokenIn)
-    // tokenCA = e.ca;
 }
 
+const getTokenInBal = async ( ca ) => {
+    let  _contract = bep20Contract(web3, ca)
+   let _tokenInBalance = await _contract.methods.balanceOf(account).call()
+   let tokenInBalance = web3.utils.fromWei(`${_tokenInBalance}`, "ether");
+   setTokenInBalance_(tokenInBalance)
+   updateTokenInBal (tokenInBalance)
+}
 const updateAmountIn = async ( e ) => {
-    let amount = e.target.value;
-    setAmountIn(amount)
-    console.log(amountIn)
-    stabalize()
-    switch (tokenIn.symbol) {
+    setAmountIn(e.target.value)
+}
+
+
+const getTokenOutBal = async ( ca ) => {
+    let  _contract = bep20Contract(web3, ca)
+   let _tokenOutBalance = await _contract.methods.balanceOf(account).call()
+   let tokenOutBalance = web3.utils.fromWei(`${_tokenOutBalance}`, "ether");
+   setTokenOutBalance_(tokenOutBalance)
+   updateTokenOutBal (tokenOutBalance)
+}
+
+const setTransaction = async ( amt ) => {
+    setAmountIn(amt)
+      switch (tokenIn.symbol) {
       case "USDC":
          var   rates = await fetch(API);
          var   _rate = await rates.json()
          var   rate = _rate.tether.ngn;
          var   _amountIn = parseFloat( `${amountIn}` );
-                 console.log(rate, "rate")
 		 var	 fee = _amountIn * 0.01;
 		   	 _fee = parseFloat(fee) * parseFloat(rate);
              setFee_(_fee)
-			console.log(_fee, "fee"); 
          var  _amountOut =  (parseFloat(_amountIn) * parseFloat(rate)) - _fee;
-			console.log(_amountOut, "out")
            setAmountOut( _amountOut );
             break;
         
@@ -94,12 +101,9 @@ const updateAmountIn = async ( e ) => {
          var   _rate = await rates.json()
          var   rate = _rate.tether.ngn;
          var   _amountIn = parseFloat( `${amountIn}` );
-                 console.log(rate, "rate")
 		 var	 fee = _amountIn * 0.01;
 		 	 _fee = parseFloat(fee) * parseFloat(rate);
-			console.log(_fee, "fee"); 
          var  _amountOut =  (parseFloat(_amountIn) * parseFloat(rate)) - _fee;
-			console.log(_amountOut, "out")
            setAmountOut( _amountOut );
             break;
 
@@ -108,12 +112,9 @@ const updateAmountIn = async ( e ) => {
           var  _rate = await rates.json()
           var  rate = _rate.tether.ngn;
           var  _amountIn = parseFloat( `${amountIn}` );
-                console.log(rate, "rate")
           var  fee = amountIn * 0.01;
           var  _fee = parseFloat(fee) / parseFloat(rate);
-                console.log(_fee,"fee");
           var  _amountOut = (parseFloat(_amountIn) / parseFloat(rate)) - _fee ;
-                console.log(_amountOut, "out")
             setAmountOut( _amountOut );
                 break;
 
@@ -125,25 +126,21 @@ const updateAmountIn = async ( e ) => {
 
 useEffect( ( ) => {
     connectWalletHandler()
-}, [])
+    setTransaction(amountIn)
+    getTokenInBal(tokenIn.ca)
+    getTokenOutBal(tokenOut.ca)
+}, [amountIn, tokenIn, account])
 
 const spinUp = ( ) => {
     if(tokenIn !== ""){
     setTokenOut(tokenIn);
     }
-    // spin.style.transitionDuration = "2s"
-    // spin.style.rotate = '360deg';
-    // findButton.disabled="true"
-    // To.disabled = "true"
-    //  tokens.classList.toggle("hide")
     if(tokenIn.name !== 'ENSC Energy'){
          _setTokenIn({name: 'ENSC Energy', ca: process.env.NEXT_PUBLIC_ENSC_CA, 
                 logo: 'ENSC.png', symbol: 'ENSC', decimal: '18' })
     }else{
          _setTokenIn("")
     }
-   
-    // bal.innerHTML = `Balance: <span id="bal">${ TokenBalance}</span>`;
 }
 
 const swap = async ( e ) => {
@@ -260,7 +257,7 @@ const connectWalletHandler = async ( ) => {
         setVendorContract_(vendorContract(web3))
          setEnsc_contract (bep20Contract(web3, process.env.NEXT_PUBLIC_ENSC_CA))
         let _balance = await ensc_contract.methods.balanceOf(Address).call();
-         setTokenOutBalance_(web3.utils.fromWei(_balance, "ether"))
+        //  setTokenOutBalance_(web3.utils.fromWei(_balance, "ether"))
         // event 
         window.ethereum.on('accountsChanged', async () => {
           // Time to reload your interface with accounts[0]!
@@ -302,7 +299,7 @@ const connectWalletHandler = async ( ) => {
                 <div className={styles.data}>
                     <input type="number" id="to" className="input is-primary is-dark mr-4" disabled  placeholder={ "Amt out : " + amountOut || "Token out" }/>
                         <div className={styles.coinData}>
-                            <div className={styles.bal}> Bal: <small> {Math.round(tokenOutBalance_)}  </small></div>
+                            <div className={styles.bal}> Bal: <small> {tokenOutBalance_.substring(0,5)}  </small></div>
                             <div className={styles.metadata}>
                                 <img id="logo1" src={tokenOut.logo} alt=""/>
                                 <span><b >{tokenOut.symbol}</b> </span>
