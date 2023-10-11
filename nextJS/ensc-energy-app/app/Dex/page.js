@@ -127,9 +127,9 @@ const setTransaction = async ( amt ) => {
 useEffect( ( ) => {
     connectWalletHandler()
     setTransaction(amountIn)
-    getTokenInBal(tokenIn.ca)
-    getTokenOutBal(tokenOut.ca)
-}, [amountIn, tokenIn, account])
+    if(account) getTokenInBal(tokenIn.ca)
+    if(account) getTokenOutBal(tokenOut.ca)
+}, [amountIn, tokenIn, account, addr])
 
 const spinUp = ( ) => {
     if(tokenIn !== ""){
@@ -331,7 +331,7 @@ const connectWalletHandler = async ( ) => {
                                         <div className={styles.img}>
                                             <img src={token.logo} alt="" />
                                         </div>
-                                        <div className={`${name} ml-2`}>${token.symbol}</div>
+                                        <div className={`${styles.name} ml-2`}>${token.symbol}</div>
                                     </div>
                                 )
                             })
