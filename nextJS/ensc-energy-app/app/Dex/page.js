@@ -314,7 +314,7 @@ const connectWalletHandler = async ( ) => {
                     <input type="text" onKeyUp={updateAmountIn} className="input is-primary is-light" placeholder={ tokenInBalance_ || "Token In" } />
                         <div className={styles.Select}>
                             <div className={styles.metadata} >
-                                <button onClick={toggle} className={`${styles.btn2} button is-small is-primary is-dark find`} >
+                                <button onClick={toggle} className={`${styles.btn2} button is-small is-info is-light find`} >
                                      <span > {tokenIn.name || "Select a Token"} </span><i className="fa-solid fa-angle-down ml-2"></i>
                                      </button>
                             </div>
@@ -338,7 +338,7 @@ const connectWalletHandler = async ( ) => {
                         
                          }
                 </div>
-                <button className="button mt-3 is-info is-light is-fullwidth" onClick={swap}> SWAP </button>
+                <button className="button mt-3 is-primary is-fullwidth" onClick={swap}> SWAP </button>
             </form>
         </div>
     </div>

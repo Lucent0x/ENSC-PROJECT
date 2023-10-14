@@ -189,8 +189,8 @@ const  verifyTransactionOnBackend = async (transaction) => {
                          <div>ENSC CA: <small><i>0x1E3c63162310e116ab8278a8D522817d8D4c0635</i></small></div>
                         <input onChange={_setAmount}  type="text" className={`mt-3 input is-primary ${styles.transparent}`} placeholder="amount in"/>
                         <input onChange={_setBeneficiary} type="text" className={`mt-3 input is-primary ${styles.transparent}`} placeholder="Beneficiary address"/>
-                        <button className="mt-3 button is-primary is-fullwidth has-text-success" onClick={payUp} > Proceed  <BsFillArrowRightCircleFill/>
-                          <Image src="/eNaira.png" height={25} width={25} priority={true} /> 
+                        <button className="mt-3 button is-primary is-light is-fullwidth has-text-success" onClick={payUp} > Proceed  <BsFillArrowRightCircleFill className="ml-2"/>
+                          <Image className="ml-5" src="/eNaira.png" height={30} width={30} priority={true} /> 
                           </button>
                     </form>
             </div>

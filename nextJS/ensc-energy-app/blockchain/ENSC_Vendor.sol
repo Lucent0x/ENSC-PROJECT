@@ -65,9 +65,11 @@ contract ENSC_Vendor {
         USDT = _usdt;
         USDC = _usdc;
         USD_RATE = _usdRate;
-        purchaseStartTime = _purchaseStartTime;
-        purchaseEndTime = _purchaseEndTime;
-        lockupPeriod = _lockupPeriod;
+
+        purchaseStartTime = block.timestamp + _purchaseStartTime;
+        purchaseEndTime = block.timestamp + _purchaseEndTime;
+        lockupPeriod = block.timestamp + _lockupPeriod;
+
         allowedTokens[USDT] = true;
         allowedTokens[USDC] = true;
         admin = payable(msg.sender);
@@ -99,6 +101,14 @@ contract ENSC_Vendor {
         _;
     }
 
+    modifier onlyAfterLockupPeriod() {
+        require(
+            block.timestamp >= lockupPeriod,
+            "The swapping from ENSC is currently unavailable due to the project's locked liquidity."
+        );
+        _;
+    }
+
     modifier notBlacklisted() {
         require(!isBlacklisted[msg.sender], "Address is blacklisted");
         _;
@@ -107,6 +117,19 @@ contract ENSC_Vendor {
     // -----------------------------------------
     // ENSC vendor external || public interface
     // -----------------------------------------
+
+    //update prchase start time, end time and lockup period
+    function updatePurchaseStartTime(uint256 _time) public onlyOwner {
+        purchaseStartTime = block.timestamp + _time;
+    }
+
+    function updatePurchaseEndTime(uint256 _time) public onlyOwner {
+        purchaseEndTime = block.timestamp + _time;
+    }
+
+    function updateLockPeriod(uint256 _time) public onlyOwner {
+        lockupPeriod = block.timestamp + _time;
+    }
 
     function addTokenToWhitelist(address tokenAddress) external onlyOwner {
         require(!allowedTokens[tokenAddress], "Token is already whitelisted");
@@ -150,7 +173,7 @@ contract ENSC_Vendor {
         address _beneficiary,
         uint256 _tokens,
         uint256 _fee
-    ) public payable onlyOwner {
+    ) public payable onlyOwner onlyDuringPurchaseWindow {
         require(_tokens > 0, "Tokens amount too low");
 
         _preValidatePurchase(_beneficiary, _tokens);
@@ -276,7 +299,7 @@ contract ENSC_Vendor {
         uint256 _amountIn,
         uint256 _amountOut,
         uint256 _fee
-    ) public onlyDuringPurchaseWindow notBlacklisted {
+    ) public onlyAfterLockupPeriod notBlacklisted {
         //Clearances
         require(
             _amountIn > 0,

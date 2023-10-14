@@ -82,6 +82,7 @@ div.right {
 .swap {
     text-align: center;
     width: 70%;
+    cursor: pointer;
 }
 
 .spin {
