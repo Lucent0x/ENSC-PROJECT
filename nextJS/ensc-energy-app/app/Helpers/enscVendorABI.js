@@ -30,6 +30,21 @@ const VENDOR_ABI= [
 				"internalType": "uint256",
 				"name": "_usdRate",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_purchaseStartTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_purchaseEndTime",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_lockupPeriod",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "nonpayable",
@@ -311,6 +326,32 @@ const VENDOR_ABI= [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "blacklistAddress",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "blacklistCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "fees_Wallet",
 		"outputs": [
@@ -321,6 +362,77 @@ const VENDOR_ABI= [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "isBlacklisted",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "lockupPeriod",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "purchaseEndTime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "purchaseStartTime",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_address",
+				"type": "address"
+			}
+		],
+		"name": "removeAddressFromBlacklist",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -358,6 +470,45 @@ const VENDOR_ABI= [
 			}
 		],
 		"name": "setUSDT",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_time",
+				"type": "uint256"
+			}
+		],
+		"name": "updateLockPeriod",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_time",
+				"type": "uint256"
+			}
+		],
+		"name": "updatePurchaseEndTime",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_time",
+				"type": "uint256"
+			}
+		],
+		"name": "updatePurchaseStartTime",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -413,9 +564,8 @@ const VENDOR_ABI= [
 		"type": "receive"
 	}
 ]
-
 const vendorContract = web3 => {
-	return new web3.eth.Contract(VENDOR_ABI, "0x6C3Cc80834530f661373A7a2447861c1B5A31731")
+	return new web3.eth.Contract(VENDOR_ABI, "0xeAD029ac662fBC698c32CB478c108dB7FE6B60B5")
 }
 
 export default vendorContract;

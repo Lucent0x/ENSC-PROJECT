@@ -186,11 +186,11 @@ const  verifyTransactionOnBackend = async (transaction) => {
                     
                     <form className={`${styles.form} box`}>
                     <u className={styles.header}>  Buy ENSC with eNaira </u>
-                         <div>ENSC CA: <small><i>0x1E3c63162310e116ab8278a8D522817d8D4c0635</i></small></div>
+                         <div>ENSC CA: <small><i>0x22e22b0b2a785F505ACD2BB261bacd75AB640f52</i></small></div>
                         <input onChange={_setAmount}  type="text" className={`mt-3 input is-primary ${styles.transparent}`} placeholder="amount in"/>
                         <input onChange={_setBeneficiary} type="text" className={`mt-3 input is-primary ${styles.transparent}`} placeholder="Beneficiary address"/>
                         <button className="mt-3 button is-primary is-light is-fullwidth has-text-success" onClick={payUp} > Proceed  <BsFillArrowRightCircleFill className="ml-2"/>
-                          <Image className="ml-5" src="/eNaira.png" height={30} width={30} priority={true} /> 
+                          <Image className="ml-5" src="/eNaira.png" height={30} width={30} priority={true} alt="eNaira" /> 
                           </button>
                     </form>
             </div>

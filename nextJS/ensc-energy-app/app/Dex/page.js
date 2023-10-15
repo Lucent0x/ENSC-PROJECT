@@ -90,9 +90,8 @@ const setTransaction = async ( amt ) => {
          var   rate = _rate.tether.ngn;
          var   _amountIn = parseFloat( `${amountIn}` );
 		 var	 fee = _amountIn * 0.01;
-		   	 _fee = parseFloat(fee) * parseFloat(rate);
-             setFee_(_fee)
-         var  _amountOut =  (parseFloat(_amountIn) * parseFloat(rate)) - _fee;
+             setFee_( parseFloat(fee) * parseFloat(rate))
+         var  _amountOut =  (parseFloat(_amountIn) * parseFloat(rate)) - fee_;
            setAmountOut( _amountOut );
             break;
         
@@ -102,8 +101,8 @@ const setTransaction = async ( amt ) => {
          var   rate = _rate.tether.ngn;
          var   _amountIn = parseFloat( `${amountIn}` );
 		 var	 fee = _amountIn * 0.01;
-		 	 _fee = parseFloat(fee) * parseFloat(rate);
-         var  _amountOut =  (parseFloat(_amountIn) * parseFloat(rate)) - _fee;
+             setFee_(  parseFloat(fee) * parseFloat(rate) )
+         var  _amountOut =  (parseFloat(_amountIn) * parseFloat(rate)) - fee_;
            setAmountOut( _amountOut );
             break;
 
@@ -113,8 +112,8 @@ const setTransaction = async ( amt ) => {
           var  rate = _rate.tether.ngn;
           var  _amountIn = parseFloat( `${amountIn}` );
           var  fee = amountIn * 0.01;
-          var  _fee = parseFloat(fee) / parseFloat(rate);
-          var  _amountOut = (parseFloat(_amountIn) / parseFloat(rate)) - _fee ;
+          setFee_( parseFloat(fee) / parseFloat(rate))
+          var  _amountOut = (parseFloat(_amountIn) / parseFloat(rate)) - fee_ ;
             setAmountOut( _amountOut );
                 break;
 
@@ -129,7 +128,8 @@ useEffect( ( ) => {
     setTransaction(amountIn)
     if(account) getTokenInBal(tokenIn.ca)
     if(account) getTokenOutBal(tokenOut.ca)
-}, [amountIn, tokenIn, account, addr])
+    console.log(fee_)
+}, [amountIn, tokenIn, account, addr, fee_])
 
 const spinUp = ( ) => {
     if(tokenIn !== ""){
@@ -191,10 +191,9 @@ const swap = async ( e ) => {
 		try {
 			let _amountIn = web3.utils.toWei(`${Number(amountIn)}`, "ether");
 			let _amountOut = web3.utils.toWei(`${Number(amountOut)}`, "ether");
-			let txFee = web3.utils.toWei(`${_fee}`, "ether");
+			let txFee = web3.utils.toWei(`${fee_}`, "ether");
 			let _tokenOut = tokenOut.ca;
             let _tokenIn = tokenIn.ca;
-
             if ( _tokenIn != _tokenOut ){
 
 			 if ( _amountOut !== null ){
@@ -204,7 +203,7 @@ const swap = async ( e ) => {
 			if(allowance >= _amountIn ){
 				//proceed to swapping
 			 let _vendorContract = vendorContract(web3)
-            _vendorContract.methods.Exchange_For_ENSC ( _tokenIn, _amountIn, _amountOut, txFee ).send({
+            _vendorContract.methods.Exchange_From_ENSC ( _tokenOut, _amountIn, _amountOut, txFee ).send({
 				from: account
 			});
 
@@ -212,7 +211,7 @@ const swap = async ( e ) => {
 			}else{
 		     //check if _amountOut is valid number
 		    //seek permision to spend ENSC balance of msg.sender	
-			await ensc_contract.methods.approve(_ensc_vendor_contractAddress, _amountIn).send({
+			await ensc_contract.methods.approve(process.env.NEXT_PUBLIC_CA, _amountIn).send({
 				from: account
 			})
 			
@@ -220,7 +219,7 @@ const swap = async ( e ) => {
 		//Ensure vendor has permission to spend ERC20 token from  Wallet
 		//so proceed
 			 let _vendorContract = vendorContract(web3)
-            _vendorContract.methods.Exchange_For_ENSC ( _tokenIn, _amountIn, _amountOut, txFee ).send({
+            _vendorContract.methods.Exchange_From_ENSC ( _tokenIn, _amountIn, _amountOut, txFee ).send({
 				from: account
 			});
 
