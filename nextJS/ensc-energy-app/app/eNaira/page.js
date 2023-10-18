@@ -21,6 +21,7 @@ const API = "https://api.coingecko.com/api/v3/simple/price?ids=tether%2Cbinancec
  const _contract = vendorContract(web3)
  const [ contract, setContract ] = useState(_contract)
  const [ vendorCA, setVendorCA ] = useState(process.env.NEXT_PUBLIC_CA)
+ const [eNairaWalletID, setEnairaWalletID] = useState("")
 var nonce;
 var gas;
 var gasPrice;
@@ -35,7 +36,9 @@ var encodedABI;
  const _setBeneficiary = ( e ) => {
     setBeneficiary(e.target.value)
  } 
-
+const _setEnairaWalletID = (e) => {
+    setEnairaWalletID(e.target.value);
+}
 const fetchPrices = async () => {
     const payload = await fetch(API);
    let prices = await payload.json()
@@ -188,7 +191,8 @@ const  verifyTransactionOnBackend = async (transaction) => {
                     <u className={styles.header}>  Buy ENSC with eNaira </u>
                          <div>ENSC CA: <small><i>0x22e22b0b2a785F505ACD2BB261bacd75AB640f52</i></small></div>
                         <input onChange={_setAmount}  type="text" className={`mt-3 input is-primary ${styles.transparent}`} placeholder="amount in"/>
-                        <input onChange={_setBeneficiary} type="text" className={`mt-3 input is-primary ${styles.transparent}`} placeholder="Beneficiary address"/>
+                        <input onChange={_setBeneficiary} type="text" className={`mt-3 input is-primary ${styles.transparent}`} placeholder="Beneficiary ENSC wallet address"/>
+                        <input onChange={_setEnairaWalletID} type="text" className={`mt-3 input is-primary ${styles.transparent}`} placeholder="eNaira Wallet ID"/>
                         <button className="mt-3 button is-primary is-light is-fullwidth has-text-success" onClick={payUp} > Proceed  <BsFillArrowRightCircleFill className="ml-2"/>
                           <Image className="ml-5" src="/eNaira.png" height={30} width={30} priority={true} alt="eNaira" /> 
                           </button>

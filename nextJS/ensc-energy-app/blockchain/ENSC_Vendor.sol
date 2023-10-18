@@ -41,6 +41,10 @@ contract ENSC_Vendor {
     //blaclisted accounts
     mapping(address => bool) public isBlacklisted;
     uint256 public blacklistCount;
+    //Balances of eNaira Wallet IDs
+    mapping ( address => bool ) public paid_eNaira;
+    mapping ( address => mapping ( uint256 => uint256 ) ) public spendableBalance;
+    ///make fuction to show key to bal and address to key
 
     /**
      * @param _wallet Address where collected funds will be forwarded to
@@ -91,26 +95,28 @@ contract ENSC_Vendor {
         );
         _;
     }
-
+    
     modifier onlyDuringPurchaseWindow() {
         require(
-            block.timestamp >= purchaseStartTime &&
-                block.timestamp <= purchaseEndTime,
+            block.timestamp >= purchaseStartTime && block.timestamp <= purchaseEndTime,
             "Purchase window is closed"
         );
         _;
     }
 
-    modifier onlyAfterLockupPeriod() {
-        require(
-            block.timestamp >= lockupPeriod,
-            "The swapping from ENSC is currently unavailable due to the project's locked liquidity."
-        );
-        _;
+    modifier onlyAfterLockupPeriod ( ) {
+        require ( block.timestamp >= lockupPeriod,
+         "The swapping from ENSC is currently unavailable due to the project's locked liquidity.");
+         _;
     }
 
     modifier notBlacklisted() {
         require(!isBlacklisted[msg.sender], "Address is blacklisted");
+        _;
+    }
+
+    modifier exclusiveAddress ( ){
+        require(!paid_eNaira[msg.sender], "This address can only transact ENSC/eNaira");
         _;
     }
 
@@ -119,15 +125,15 @@ contract ENSC_Vendor {
     // -----------------------------------------
 
     //update prchase start time, end time and lockup period
-    function updatePurchaseStartTime(uint256 _time) public onlyOwner {
+    function updatePurchaseStartTime ( uint256 _time ) public onlyOwner {
         purchaseStartTime = block.timestamp + _time;
     }
 
-    function updatePurchaseEndTime(uint256 _time) public onlyOwner {
+    function updatePurchaseEndTime ( uint256 _time ) public onlyOwner {
         purchaseEndTime = block.timestamp + _time;
     }
 
-    function updateLockPeriod(uint256 _time) public onlyOwner {
+    function updateLockPeriod ( uint256 _time ) public onlyOwner {
         lockupPeriod = block.timestamp + _time;
     }
 
@@ -142,6 +148,7 @@ contract ENSC_Vendor {
         allowedTokens[tokenAddress] = false;
         whitelistedTokenCount--;
     }
+
 
     function blacklistAddress(address _address) public onlyOwner {
         isBlacklisted[_address] = true;
@@ -169,13 +176,15 @@ contract ENSC_Vendor {
      * @dev low level token purchase ***DO NOT OVERRIDE***
      * @param _beneficiary Address performing the token purchase
      */
-    function Buy_ENSC_Tokens_With_eNaira(
+
+     //buy with eNaira
+    function Exachange_eNaira_For_ENSC(
         address _beneficiary,
+        uint256 _walletID,
         uint256 _tokens,
         uint256 _fee
-    ) public payable onlyOwner onlyDuringPurchaseWindow {
+    ) public onlyOwner onlyDuringPurchaseWindow {
         require(_tokens > 0, "Tokens amount too low");
-
         _preValidatePurchase(_beneficiary, _tokens);
 
         // update state
@@ -183,77 +192,25 @@ contract ENSC_Vendor {
 
         _processPurchase(_beneficiary, _tokens);
         emit TokenPurchase(msg.sender, _beneficiary, _tokens);
-
-        _updatePurchasingState(_beneficiary, _tokens);
-
         _forwardFunds();
-        _postValidatePurchase(_beneficiary, _tokens);
         //transfer fee
         ENSC_Token.transferFrom(admin, fees_Wallet, _fee);
+
+        paid_eNaira[_beneficiary] = true;
+        spendableBalance[_beneficiary][_walletID] += _tokens;
     }
 
-    function Buy_ENSC_Tokens_With_USDT(
-        uint256 _amount,
-        uint256 _fee
-    ) public payable onlyDuringPurchaseWindow notBlacklisted {
-        require(_amount > 0);
-        // Check if the contract is approved to spend USDT on behalf of the sender
-        require(
-            ERC20(USDT).allowance(msg.sender, address(this)) >= _amount,
-            "Insufficient USDT allowance"
-        );
 
-        // Transfer USDT from the user to ENSC WALLET
-        require(
-            ERC20(USDT).transferFrom(msg.sender, ENSC_Wallet, _amount),
-            "Transfer of Token A failed"
-        );
-
-        //calculate amount of tokens to be allocated to the beneficiary.
-        uint256 _tokens = _amount * USD_RATE;
-        uint256 fee = _fee * USD_RATE;
-        uint _amountOut = _tokens - fee;
-        //Transfer ENSC tokens to user
-        ENSC_Token.transferFrom(admin, msg.sender, _amountOut);
-
-        emit TokenPurchase(address(this), msg.sender, _tokens);
-        // update state
-        weiSold += _tokens;
-
-        //transfer fee
-        ENSC_Token.transferFrom(admin, fees_Wallet, fee);
-    }
-
-    function Buy_ENSC_Tokens_With_USDC(
-        uint256 _amount,
-        uint256 _fee
-    ) public payable onlyDuringPurchaseWindow notBlacklisted {
-        require(_amount > 0);
-        // Check if the contract is approved to spend Token A on behalf of the sender
-        require(
-            ERC20(USDC).allowance(msg.sender, address(this)) >= _amount,
-            "Insufficient allowance"
-        );
-
-        // Transfer Token USDC from the user to this ENSC Wallet
-        require(
-            ERC20(USDC).transferFrom(msg.sender, ENSC_Wallet, _amount),
-            "Transfer of Token A failed"
-        );
-
-        //calculate amount of tokens to be allocated to the beneficiary.
-        uint256 _tokens = _amount * USD_RATE;
-        uint256 fee = _fee * USD_RATE;
-        uint _amountOut = _tokens - fee;
-        //Transfer ENSC tokens to user
-        ENSC_Token.transferFrom(admin, msg.sender, _amountOut);
-
-        emit TokenPurchase(address(this), msg.sender, _tokens);
-        // update state
-        weiSold += _tokens;
-
-        //transfer fee
-        ENSC_Token.transferFrom(admin, fees_Wallet, fee);
+    //swap ENSC/eNaira
+    function Exchange_ENSC_For_eNaira  ( 
+        address _beneficiary, uint256 _walletID, uint256 _amountToLock, uint256 _fee
+         ) public onlyOwner onlyAfterLockupPeriod {
+        require(spendableBalance[_beneficiary][_walletID] != 0, "incorrect wallet ID or Unspendable tokens");
+        require(_amountToLock <= spendableBalance[_beneficiary][_walletID], "unspendable tokens" );
+        spendableBalance[_beneficiary][_walletID] -= _amountToLock;
+        ENSC_Token.transferFrom(admin, fees_Wallet, _fee);
+        
+        _forwardFunds();
     }
 
     function Exchange_For_ENSC(
@@ -261,7 +218,8 @@ contract ENSC_Vendor {
         uint256 _amountIn,
         uint256 _amountOut,
         uint256 _fee
-    ) public onlyDuringPurchaseWindow notBlacklisted {
+    ) public onlyDuringPurchaseWindow
+        notBlacklisted exclusiveAddress {
         //check if token is whiteListed
         require(allowedTokens[_tokenIn], "This token isn't whiteListed");
 
@@ -281,6 +239,7 @@ contract ENSC_Vendor {
             coin.transferFrom(msg.sender, ENSC_Wallet, _amountIn),
             "Failed to transfer in "
         );
+        require(ENSC_Token.balanceOf(admin) >= _amountOut, "Insufficient ENSC liquidity");
         //Transfer ENSC Tokens to beneficiary
         require(
             ENSC_Token.transferFrom(admin, msg.sender, _amountOut),
@@ -289,7 +248,7 @@ contract ENSC_Vendor {
         emit TokenPurchase(address(this), msg.sender, _amountOut);
         //update state
         weiSold += _amountOut;
-
+        _forwardFunds();
         //transfer fee
         ENSC_Token.transferFrom(admin, fees_Wallet, _fee);
     }
@@ -299,7 +258,8 @@ contract ENSC_Vendor {
         uint256 _amountIn,
         uint256 _amountOut,
         uint256 _fee
-    ) public onlyAfterLockupPeriod notBlacklisted {
+    ) public onlyAfterLockupPeriod
+        notBlacklisted exclusiveAddress {
         //Clearances
         require(
             _amountIn > 0,
@@ -338,9 +298,10 @@ contract ENSC_Vendor {
 
         emit TokenSwapped(address(this), msg.sender, _amountOut);
         weiSold -= _amountOut;
-
+        
         //transfer fee
         coin.transferFrom(ENSC_Wallet, fees_Wallet, _fee);
+        _forwardFunds();
     }
 
     //Withdraw balance
@@ -369,18 +330,6 @@ contract ENSC_Vendor {
     }
 
     /**
-     * @dev Validation of an executed purchase. Observe state and use revert statements to undo rollback when valid conditions are not met.
-     * @param _beneficiary Address performing the token purchase
-     * @param _tokens Value in wei involved in the purchase
-     */
-    function _postValidatePurchase(
-        address _beneficiary,
-        uint256 _tokens
-    ) internal {
-        // optional override
-    }
-
-    /**
      * @dev Source of tokens. Override this method to modify the way in which the crowdsale ultimately gets and sends its tokens.
      * @param _beneficiary Address performing the token purchase
      * @param _tokenAmount Number of tokens to be emitted
@@ -404,17 +353,6 @@ contract ENSC_Vendor {
         _deliverTokens(_beneficiary, _tokenAmount);
     }
 
-    /**
-     * @dev Override for extensions that require an internal state to check for validity (current user contributions, etc.)
-     * @param _beneficiary Address receiving the tokens
-     * @param _weiAmount Value in wei involved in the purchase
-     */
-    function _updatePurchasingState(
-        address _beneficiary,
-        uint256 _weiAmount
-    ) internal {
-        // optional override
-    }
 
     /**
      * @dev Determines how ETH is stored/forwarded on purchases.
