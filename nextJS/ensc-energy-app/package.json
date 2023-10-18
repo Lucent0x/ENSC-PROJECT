@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@thirdweb-dev/react": "^4.0.3",
+    "@thirdweb-dev/sdk": "^4.0.2",
     "bulma": "^0.9.4",
     "dotenv": "^16.3.1",
+    "ethers": "^5.7.2",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",

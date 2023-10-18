@@ -11,7 +11,7 @@ import whitelistedTokens from "../Helpers/whitelistedTokens"
 import { useEffect, useState } from "react"
 import Web3 from "web3"
 
-const Template = ( ) => {
+const Dex = ( ) => {
 
 const API = "https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=ngn";
 var [fee_, setFee_] = useState(0);
@@ -45,12 +45,6 @@ const toggle = ( e ) => {
      console.log(isHidden)
 }
 
-const stabalize = ( ) => {
-    setIsDisabled(isDisabled)
-}
-const _setTokenOut = async ( e ) => {
-	setTokenOut(e)
-}
 const updateTokenInBal = (bal ) => {
     setTokenInBalance_(bal)
 }
@@ -251,11 +245,10 @@ const connectWalletHandler = async ( ) => {
         const accounts = await web3.eth.getAccounts()
        let Address = accounts[0];
         setAccount(Address)
-        setAddr(`${Address.substring(0,5)}.........${Address.substring(40)}`);
+        setAddr(`${Address.substring(0,5)}....${Address.slice(-5)}`);
         // initialize contracts
         setVendorContract_(vendorContract(web3))
          setEnsc_contract (bep20Contract(web3, process.env.NEXT_PUBLIC_ENSC_CA))
-        let _balance = await ensc_contract.methods.balanceOf(Address).call();
         //  setTokenOutBalance_(web3.utils.fromWei(_balance, "ether"))
         // event 
         window.ethereum.on('accountsChanged', async () => {
@@ -263,7 +256,7 @@ const connectWalletHandler = async ( ) => {
           let accounts = await web3.eth.getAccounts()
          let Address = accounts[0];
           setAccount(Address)
-          setAddr( `${Address.substring(0,5)}........${Address.substring(15)}`);
+          setAddr( `${Address.substring(0,5)}....${Address.slice(-5)}`);
         });
       }catch (e) {
         console.error(e.message)
@@ -288,7 +281,12 @@ const connectWalletHandler = async ( ) => {
                 </ul> */}
             </div>
             <div className={styles.right2}>
-                <div className="button is-primary is-dark" id="connect" onClick={connectWalletHandler}> {addr || "connect" } <BiSolidWalletAlt className="ml-2" /></div>
+                {addr? ( <span className="button is-primary is-dark">{addr}</span> ) 
+                :
+                ( <div className="button is-primary is-dark" id="connect" onClick={connectWalletHandler}>
+                     Connect <BiSolidWalletAlt className="ml-2" />
+                </div>)
+                }   
             </div>
         </div>
     </div>
@@ -344,4 +342,4 @@ const connectWalletHandler = async ( ) => {
     </>
     )
 }
-export default Template;
+export default Dex;

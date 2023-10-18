@@ -360,4 +360,4 @@ const erc20Contract = (web3, ContractAddress) => {
     return new web3.eth.Contract(ERC20ABI, ContractAddress);
 }
 
-export default erc20Contract;
+export default 	erc20Contract;
